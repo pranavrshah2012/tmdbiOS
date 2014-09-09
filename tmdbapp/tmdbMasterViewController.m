@@ -40,8 +40,8 @@
 {
     [super viewDidLoad];
     NSMutableString *choice;
-[self.masterView setHidden:YES];
-    [self.scrollWheel setHidden:NO];
+//[self.masterView setHidden:YES];
+  //  [self.scrollWheel setHidden:NO];
 
     switch (_index){
         case 0:
@@ -75,7 +75,8 @@
     key = @"?api_key=c47afb8e8b27906bca710175d6e8ba68";
     [str appendString: choice];
     [str appendString:key];
-
+    [self.masterView setHidden:YES];
+    [self.scrollWheel setHidden:NO];
     [self.scrollWheel startAnimating];
 
      //get full json using queue
@@ -95,10 +96,10 @@
              [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
              [urls addObject: [movieObject objectForKey : @"poster_path"]];
              [ids addObject: [movieObject objectForKey:@"id"]];
-             [self.tableView reloadData];
              [self.masterView setHidden:NO];
              [self.scrollWheel setHidden:YES];
-          //   [self.scrollWheel stopAnimating];
+             [self.masterView reloadData];
+             [self.scrollWheel stopAnimating];
 
          }
 
@@ -121,7 +122,7 @@
     }
     [_objects insertObject:[NSDate date] atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.masterView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table View
@@ -185,7 +186,7 @@
      }
      
        //  dispatch_async(dispatch_get_main_queue(), ^{
-           UIImage *cellImage = [UIImage imageWithData:downloadedData];
+           UIImage *cellImage = [UIImage imageWithData:downloadedData];        
            cell.imageView.image = cellImage;
       //   });
        
@@ -252,7 +253,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"show"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath = [self.masterView indexPathForSelectedRow];
         NSDate *object = ids[indexPath.row];
     [[segue destinationViewController] setDetailItem: object ];
     }

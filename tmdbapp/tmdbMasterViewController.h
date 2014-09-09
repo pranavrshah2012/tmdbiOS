@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface tmdbMasterViewController : UITableViewController
+@interface tmdbMasterViewController : UIViewController
     @property (readwrite) int index;
 @property (nonatomic, strong) NSOperationQueue *queue;
 

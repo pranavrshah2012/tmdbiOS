@@ -112,22 +112,9 @@ NSMutableString *posterUrl;
      });
      
      });
-     
-    
-    
-    /* works good
-    NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
-    NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
-
-    UIImage *movieImage = [UIImage imageWithData:imagedata];
-    self.poster.image = movieImage;
-    self.synopsis.text = [response objectForKey:@"overview"];
-    self.titleLabel.text = [response objectForKey:@"title"];
-    */
+  
     //credits table
     baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
-    
-    
     [baseUrl appendString:idOfMovie.description ];
     [baseUrl appendString:credits];
     [baseUrl appendString:key];
