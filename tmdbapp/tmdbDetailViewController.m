@@ -115,7 +115,7 @@ NSMutableString *posterUrl;
      
     
     
-    /*
+    /* works good
     NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
     NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
 

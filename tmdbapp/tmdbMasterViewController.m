@@ -106,37 +106,6 @@
      
      });
     
-    
-    /*works good
-    id response=[NSJSONSerialization JSONObjectWithData:data options:
-                 NSJSONReadingMutableContainers error:&error];
-    //NSLog(@"item: %@", response);
-    
-    results = [response objectForKey:@"results"]; //2
-
-    id response=[NSJSONSerialization JSONObjectWithData:data options:
-          NSJSONReadingMutableContainers error:&error];
-    //NSLog(@"item: %@", response);
-   
-    results = [response objectForKey:@"results"]; //2
-    
-    
-    for(movieObject in results){
-        //NSLog(@"item: %@", movieObject);
-        [_objects addObject: [movieObject objectForKey : @"original_title" ]];
-        [releases addObject: [movieObject objectForKey : @"release_date" ]];
-        [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
-        [urls addObject: [movieObject objectForKey : @"poster_path"]];
-        [ids addObject: [movieObject objectForKey:@"id"]];
-    }
-    */
-
-    // Do any additional setup after loading the view, typically from a nib.
-/*    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-*/
  }
 
 - (void)didReceiveMemoryWarning
@@ -222,15 +191,7 @@
        
           //  });
     }
-    /*works
-    NSURL * url=[NSURL URLWithString:baseImageUrl];
-    NSData *data =[NSData dataWithContentsOfURL:url];
 
-
-  //  NSLog(@"poster: %@", baseImageUrl);
-    UIImage *cellImage = [UIImage imageWithData:data];
-    cell.imageView.image = cellImage;
-   */
     
 // configure the call
     cell.TitleLabel.text = [object description];
