@@ -9,5 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface tmdbMasterViewController : UITableViewController
+    @property (readwrite) int index;
+@property (nonatomic, strong) NSOperationQueue *queue;
+
+@property (strong, nonatomic) IBOutlet UITableView *masterView;
+
+
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *scrollWheel;
+
+    
+
 
 @end

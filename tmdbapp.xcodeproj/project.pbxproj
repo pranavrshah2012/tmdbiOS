@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8110249419B9DDA4007CF550 /* tmdbIndexPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */; };
+		814B4B0619B92E3700D5FDBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814B4B0419B92E3700D5FDBA /* Main.storyboard */; };
+		817376F719B8018900733619 /* images.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 817376F619B8018900733619 /* images.jpeg */; };
+		817376FA19B80E2200733619 /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 817376F919B80E2200733619 /* constants.m */; };
+		817376FF19B8E2F000733619 /* CustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 817376FE19B8E2F000733619 /* CustomCellTableViewCell.m */; };
 		8194F94D19B7F45E00078E80 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194F94C19B7F45E00078E80 /* Foundation.framework */; };
 		8194F94F19B7F45F00078E80 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194F94E19B7F45F00078E80 /* CoreGraphics.framework */; };
 		8194F95119B7F45F00078E80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194F95019B7F45F00078E80 /* UIKit.framework */; };
 		8194F95719B7F45F00078E80 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194F95519B7F45F00078E80 /* InfoPlist.strings */; };
 		8194F95919B7F45F00078E80 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F95819B7F45F00078E80 /* main.m */; };
 		8194F95D19B7F45F00078E80 /* tmdbAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F95C19B7F45F00078E80 /* tmdbAppDelegate.m */; };
-		8194F96019B7F45F00078E80 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8194F95E19B7F45F00078E80 /* Main.storyboard */; };
 		8194F96319B7F45F00078E80 /* tmdbMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F96219B7F45F00078E80 /* tmdbMasterViewController.m */; };
 		8194F96619B7F45F00078E80 /* tmdbDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F96519B7F45F00078E80 /* tmdbDetailViewController.m */; };
 		8194F96819B7F45F00078E80 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8194F96719B7F45F00078E80 /* Images.xcassets */; };
@@ -22,6 +26,7 @@
 		8194F97119B7F45F00078E80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194F95019B7F45F00078E80 /* UIKit.framework */; };
 		8194F97919B7F45F00078E80 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194F97719B7F45F00078E80 /* InfoPlist.strings */; };
 		8194F97B19B7F45F00078E80 /* tmdbappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F97A19B7F45F00078E80 /* tmdbappTests.m */; };
+		8194F98619B7FBC900078E80 /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F98519B7FBC900078E80 /* Movie.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +40,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8110249219B9DDA4007CF550 /* tmdbIndexPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tmdbIndexPageController.h; sourceTree = "<group>"; };
+		8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tmdbIndexPageController.m; sourceTree = "<group>"; };
+		814B4B0519B92E3700D5FDBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		817376F619B8018900733619 /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
+		817376F819B80E2200733619 /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		817376F919B80E2200733619 /* constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = constants.m; sourceTree = "<group>"; };
+		817376FD19B8E2F000733619 /* CustomCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCellTableViewCell.h; sourceTree = "<group>"; };
+		817376FE19B8E2F000733619 /* CustomCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCellTableViewCell.m; sourceTree = "<group>"; };
 		8194F94919B7F45E00078E80 /* tmdbapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tmdbapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8194F94C19B7F45E00078E80 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8194F94E19B7F45F00078E80 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -45,7 +58,6 @@
 		8194F95A19B7F45F00078E80 /* tmdbapp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tmdbapp-Prefix.pch"; sourceTree = "<group>"; };
 		8194F95B19B7F45F00078E80 /* tmdbAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tmdbAppDelegate.h; sourceTree = "<group>"; };
 		8194F95C19B7F45F00078E80 /* tmdbAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tmdbAppDelegate.m; sourceTree = "<group>"; };
-		8194F95F19B7F45F00078E80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8194F96119B7F45F00078E80 /* tmdbMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tmdbMasterViewController.h; sourceTree = "<group>"; };
 		8194F96219B7F45F00078E80 /* tmdbMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tmdbMasterViewController.m; sourceTree = "<group>"; };
 		8194F96419B7F45F00078E80 /* tmdbDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tmdbDetailViewController.h; sourceTree = "<group>"; };
@@ -56,6 +68,8 @@
 		8194F97619B7F45F00078E80 /* tmdbappTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "tmdbappTests-Info.plist"; sourceTree = "<group>"; };
 		8194F97819B7F45F00078E80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8194F97A19B7F45F00078E80 /* tmdbappTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tmdbappTests.m; sourceTree = "<group>"; };
+		8194F98419B7FBC900078E80 /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		8194F98519B7FBC900078E80 /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,13 +131,21 @@
 			children = (
 				8194F95B19B7F45F00078E80 /* tmdbAppDelegate.h */,
 				8194F95C19B7F45F00078E80 /* tmdbAppDelegate.m */,
-				8194F95E19B7F45F00078E80 /* Main.storyboard */,
+				814B4B0419B92E3700D5FDBA /* Main.storyboard */,
 				8194F96119B7F45F00078E80 /* tmdbMasterViewController.h */,
 				8194F96219B7F45F00078E80 /* tmdbMasterViewController.m */,
 				8194F96419B7F45F00078E80 /* tmdbDetailViewController.h */,
 				8194F96519B7F45F00078E80 /* tmdbDetailViewController.m */,
 				8194F96719B7F45F00078E80 /* Images.xcassets */,
 				8194F95319B7F45F00078E80 /* Supporting Files */,
+				8194F98419B7FBC900078E80 /* Movie.h */,
+				8194F98519B7FBC900078E80 /* Movie.m */,
+				817376F819B80E2200733619 /* constants.h */,
+				817376F919B80E2200733619 /* constants.m */,
+				817376FD19B8E2F000733619 /* CustomCellTableViewCell.h */,
+				817376FE19B8E2F000733619 /* CustomCellTableViewCell.m */,
+				8110249219B9DDA4007CF550 /* tmdbIndexPageController.h */,
+				8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */,
 			);
 			path = tmdbapp;
 			sourceTree = "<group>";
@@ -131,6 +153,7 @@
 		8194F95319B7F45F00078E80 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				817376F619B8018900733619 /* images.jpeg */,
 				8194F95419B7F45F00078E80 /* tmdbapp-Info.plist */,
 				8194F95519B7F45F00078E80 /* InfoPlist.strings */,
 				8194F95819B7F45F00078E80 /* main.m */,
@@ -235,8 +258,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8194F96819B7F45F00078E80 /* Images.xcassets in Resources */,
+				817376F719B8018900733619 /* images.jpeg in Resources */,
 				8194F95719B7F45F00078E80 /* InfoPlist.strings in Resources */,
-				8194F96019B7F45F00078E80 /* Main.storyboard in Resources */,
+				814B4B0619B92E3700D5FDBA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +281,12 @@
 			files = (
 				8194F95919B7F45F00078E80 /* main.m in Sources */,
 				8194F96319B7F45F00078E80 /* tmdbMasterViewController.m in Sources */,
+				8194F98619B7FBC900078E80 /* Movie.m in Sources */,
+				817376FA19B80E2200733619 /* constants.m in Sources */,
+				8110249419B9DDA4007CF550 /* tmdbIndexPageController.m in Sources */,
 				8194F96619B7F45F00078E80 /* tmdbDetailViewController.m in Sources */,
 				8194F95D19B7F45F00078E80 /* tmdbAppDelegate.m in Sources */,
+				817376FF19B8E2F000733619 /* CustomCellTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,20 +309,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		814B4B0419B92E3700D5FDBA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				814B4B0519B92E3700D5FDBA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		8194F95519B7F45F00078E80 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8194F95619B7F45F00078E80 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		8194F95E19B7F45F00078E80 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8194F95F19B7F45F00078E80 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		8194F97719B7F45F00078E80 /* InfoPlist.strings */ = {
@@ -463,6 +491,7 @@
 				8194F98019B7F45F00078E80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8194F98119B7F45F00078E80 /* Build configuration list for PBXNativeTarget "tmdbappTests" */ = {
 			isa = XCConfigurationList;
@@ -471,6 +500,7 @@
 				8194F98319B7F45F00078E80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
