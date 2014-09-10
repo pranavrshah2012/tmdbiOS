@@ -19,6 +19,7 @@
     NSString *credits;
     NSMutableArray *listOfActors;
     NSCache *memoryCache;
+    NSMutableDictionary *castDictionary;
 }
 - (void)configureView;
 
@@ -40,18 +41,18 @@
 
 - (void)configureView
 {
+    self.title = _detailTitle;
     // Update the user interface for the detail item.
     
     if (self.detailItem) {
         // self.detailDescriptionLabel.text = [self.detailItem description];
-        
-        
-        
+
     }
 }
 
 - (void)viewDidLoad
 {
+    castDictionary = [[NSMutableDictionary alloc] init];
     [super viewDidLoad];
  
     credits = @"/credits";
@@ -62,9 +63,7 @@
  //   NSLog(@"append 1 is %@ %@ %@", jsonUrl, idOfMovie.description, key);
     [jsonUrl appendString:idOfMovie.description ];
     [jsonUrl appendString:key];
-    
 
-    
     /*
      NSURL *url=[NSURL URLWithString:baseUrl];
      NSData *data=[NSData dataWithContentsOfURL:url];
@@ -170,7 +169,6 @@
     
     //credits table
      baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
-  //  NSLog(@"append 8 is %@ %@ %@", baseUrl, idOfMovie.description, key);
     [baseUrl appendString:idOfMovie.description ];
      [baseUrl appendString:credits];
      [baseUrl appendString:key];
@@ -210,14 +208,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"cell"] ;
-    
+    cell.imageView.image= nil;
     if(!cell)
     {
         NSLog(@"Cell is nil");
     }
     // Configure the cell.
     cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
-    // cell.imageView.image =
+    
     cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
     
     NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
@@ -227,16 +225,38 @@
     
     if(![cast_image_path isEqual:[NSNull null]]){
        // NSLog(@" I am nil? %@ %@", baseImgUrl, cast_image_path);
-
+        UIImage *checkForImage = [castDictionary objectForKey:indexPath];
+        if(checkForImage)
+        {
+            NSLog(@" found image ? $@", [checkForImage description]);
+            cell.imageView.image= checkForImage;
+        }
+        else {
         [baseImgUrl appendString:cast_image_path];
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
         NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
         NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
 
+            dispatch_async(dispatch_get_main_queue(), ^{
+
         if(imagedata){
+            
+             UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
+             NSLog(@" Image downloaded ");
             UIImage *castImage = [UIImage imageWithData:imagedata];
             cell.imageView.image = castImage;
+            [cell setNeedsLayout];
+            if(castImage)
+                [castDictionary setObject:castImage forKey:indexPath];
+
         }
+          
+            });
+            
+        });
+            
+        }//else
     }
     
     

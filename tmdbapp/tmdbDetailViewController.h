@@ -10,6 +10,7 @@
 
 @interface tmdbDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (readwrite) NSString *detailTitle;
 @property (weak, nonatomic) IBOutlet UILabel *cast;
 @property (weak, nonatomic) IBOutlet UIImageView *poster;
 @property (weak, nonatomic) IBOutlet UILabel *name;

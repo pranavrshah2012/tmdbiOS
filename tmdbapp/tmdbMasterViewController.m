@@ -11,6 +11,7 @@
 #import "CustomCellTableViewCell.h"
 #import "tmdbDetailViewController.h"
 
+
 @interface tmdbMasterViewController () {
     NSMutableArray *_objects;
     NSString *key;
@@ -73,6 +74,7 @@
     ratings=  [[NSMutableArray alloc]init];
     urls=  [[NSMutableArray alloc]init];
     ids = [[NSMutableArray alloc]init];
+    self.title = _chosenTitle;
     
     str =     [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     key = @"?api_key=c47afb8e8b27906bca710175d6e8ba68";
@@ -309,7 +311,9 @@
     if ([[segue identifier] isEqualToString:@"show"]) {
         NSIndexPath *indexPath = [self.masterView indexPathForSelectedRow];
         NSDate *object = ids[indexPath.row];
+        
     [[segue destinationViewController] setDetailItem: object ];
+        [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
     }
 }
 

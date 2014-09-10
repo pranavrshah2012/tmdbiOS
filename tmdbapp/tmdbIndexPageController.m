@@ -121,6 +121,7 @@ NSArray *options;
         NSDate *object = options[indexPath.row];
         //  NSLog(@"item: %@", [object description] );
         [[segue destinationViewController] setIndex:(indexPath.row)];
+        [[segue destinationViewController] setChosenTitle:options[indexPath.row]];
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
