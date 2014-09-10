@@ -20,6 +20,10 @@
     NSMutableArray *listOfActors;
     NSCache *memoryCache;
     NSMutableDictionary *castDictionary;
+    NSMutableArray *genresArray ;
+    NSMutableString *listOfGenres;
+    NSMutableArray *production_companies;
+    NSMutableString *listOfProductionCompanies;
 }
 - (void)configureView;
 
@@ -52,9 +56,13 @@
 
 - (void)viewDidLoad
 {
-    castDictionary = [[NSMutableDictionary alloc] init];
     [super viewDidLoad];
- 
+
+    listOfGenres = [NSMutableString stringWithString:@""];
+    castDictionary = [[NSMutableDictionary alloc] init];
+    production_companies = [[NSMutableDictionary alloc]init];
+    listOfProductionCompanies = [NSMutableString stringWithString:@"" ];
+    genresArray = [[NSMutableArray alloc]init];
     credits = @"/credits";
     NSString *idOfMovie = self.detailItem;
     
@@ -104,10 +112,23 @@
         id responseObject;
         responseObject=[NSJSONSerialization JSONObjectWithData:data options:
                   NSJSONReadingMutableContainers error:&error];
-        baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w500"];
-        //  NSLog(@"response is: %@", response);
+        baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w342"];
+        
+     //   NSLog(@"response is: %@", re);
         
         title = [responseObject objectForKey:@"title"];
+        genresArray = [responseObject objectForKey:@"genres"];
+        
+        for(id genre in genresArray)
+        {
+            [listOfGenres appendString: [genre objectForKey:@"name"] ];
+            [listOfGenres appendString: @" "];
+        }
+        
+        
+        
+        NSLog(@"genres array %@ %@ ", genresArray, listOfGenres);
+        
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
      //   NSLog(@"suffix is: %@", suffix);
 
@@ -220,7 +241,7 @@
     
     NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
     
-    baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w500"];
+    baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     
     
     if(![cast_image_path isEqual:[NSNull null]]){
@@ -228,7 +249,7 @@
         UIImage *checkForImage = [castDictionary objectForKey:indexPath];
         if(checkForImage)
         {
-            NSLog(@" found image ? $@", [checkForImage description]);
+    //        NSLog(@" found image ? $@", [checkForImage description]);
             cell.imageView.image= checkForImage;
         }
         else {
@@ -243,7 +264,7 @@
         if(imagedata){
             
              UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
-             NSLog(@" Image downloaded ");
+   //          NSLog(@" Image downloaded ");
             UIImage *castImage = [UIImage imageWithData:imagedata];
             cell.imageView.image = castImage;
             [cell setNeedsLayout];

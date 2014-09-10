@@ -157,7 +157,7 @@
     NSObject *poster_path = [temp description];
  
     baseImageUrl = @"";
-    baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w500"];
+    baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     __block  NSURL *localUrl ;
    
     if(![poster_path isEqual:[NSNull null]]){
@@ -169,9 +169,9 @@
     else   NSLog(@"object description :%@", [object description]);
 
    UIImage *image = [memoryCache objectForKey:indexPath];
-    NSLog(@"image : %@%d", [image description], indexPath.row);
+    //NSLog(@"image : %@%d", [image description], indexPath.row);
     if(image){
-        NSLog(@"Display image outside main");
+   //     NSLog(@"Display image outside main");
        cell.imageView.image = image;
 
     }
@@ -201,13 +201,13 @@
          dispatch_async(dispatch_get_main_queue(), ^{
              CustomCellTableViewCell *newCell = (CustomCellTableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
            UIImage *cellImage = [UIImage imageWithData:downloadedData];        
-             NSLog(@" Image downloaded for  %@" , [object description] );
+          //   NSLog(@" Image downloaded for  %@" , [object description] );
              newCell.imageView.image = cellImage;
              [cell setNeedsLayout];
-             NSLog(@"Display image in main");
+          //   NSLog(@"Display image in main");
              if(cellImage)
              [memoryCache setObject:cellImage forKey:indexPath];
-             NSLog(@" key set: %d ", indexPath.row);
+           //  NSLog(@" key set: %d ", indexPath.row);
          });
        
            });
@@ -259,7 +259,7 @@
       page++;
 
         downloadMoreUrl = [NSString stringWithFormat:@"%@%@%d",str, ampersandPage, (long)page ];
-        NSLog(@"url::  %@", downloadMoreUrl);
+      //  NSLog(@"url::  %@", downloadMoreUrl);
 
         //get full json using queue
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
