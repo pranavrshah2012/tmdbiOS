@@ -59,7 +59,7 @@
     
     NSMutableString *jsonUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     key = [NSMutableString stringWithString:@"?api_key=c47afb8e8b27906bca710175d6e8ba68"];
-    NSLog(@"append 1 is %@ %@ %@", jsonUrl, idOfMovie.description, key);
+ //   NSLog(@"append 1 is %@ %@ %@", jsonUrl, idOfMovie.description, key);
     [jsonUrl appendString:idOfMovie.description ];
     [jsonUrl appendString:key];
     
@@ -99,7 +99,7 @@
         NSURL *url=[NSURL URLWithString:jsonUrl];
         NSData *data=[NSData dataWithContentsOfURL:url];
         
-        NSLog(@"data jsonurl responseObject: %@", jsonUrl);
+      //  NSLog(@"data jsonurl responseObject: %@", jsonUrl);
         
         NSError *error=nil;
         id responseObject;
@@ -110,13 +110,13 @@
         
         title = [responseObject objectForKey:@"title"];
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
-        NSLog(@"suffix is: %@", suffix);
+     //   NSLog(@"suffix is: %@", suffix);
 
         
         if(![suffix isEqual:[NSNull null]])
-            NSLog(@" append suffix %@ %@ %@" , suffix, baseImgUrl, responseObject);
+       //     NSLog(@" append suffix %@ %@" , suffix, baseImgUrl);
             [baseImgUrl appendString:suffix];
-        NSLog(@" append after %@ %@ %@" , baseImgUrl);
+   //     NSLog(@" append after %@" , baseImgUrl);
 
         //  NSLog(@"title below suffix: %@", title);
         //  NSLog(@"url below suffix: %@", baseImgUrl);
@@ -136,13 +136,11 @@
             [memoryCache setObject:downloadedData forKey:baseImgUrl];
             
             baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
-            NSLog(@"append 7 is %@ %@ %@", baseUrl, idOfMovie.description, key);
+   //         NSLog(@"append 7 is %@ %@ %@", baseUrl, idOfMovie.description, key);
             [baseUrl appendString:idOfMovie.description ];
             [baseUrl appendString:credits];
             [baseUrl appendString:key];
 
-            
-            
             url=[NSURL URLWithString:baseUrl];
             data=[NSData dataWithContentsOfURL:url];
             //    NSLog(@"baseUrl: %@", baseUrl);
@@ -171,14 +169,11 @@
     });
     
     //credits table
-    
      baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
-    NSLog(@"append 8 is %@ %@ %@", baseUrl, idOfMovie.description, key);
+  //  NSLog(@"append 8 is %@ %@ %@", baseUrl, idOfMovie.description, key);
     [baseUrl appendString:idOfMovie.description ];
      [baseUrl appendString:credits];
      [baseUrl appendString:key];
-
-    
      
      NSURL *url=[NSURL URLWithString:baseUrl];
      NSData *data=[NSData dataWithContentsOfURL:url];
@@ -189,18 +184,10 @@
      NSJSONReadingMutableContainers error:&error];
      //    NSLog(@"credits are: %@", response);
      listOfActors = [response objectForKey:@"cast"]; //2
-    
-    
-    //  NSLog(@"cast is %@", listOfActors);
-    
-    
+     //  NSLog(@"cast is %@", listOfActors);
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
-
-    
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -238,17 +225,14 @@
     baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w500"];
     
     
-    if(!cast_image_path){
-        NSLog(@" I am nil? %@ %@", baseImgUrl, cast_image_path);
+    if(![cast_image_path isEqual:[NSNull null]]){
+       // NSLog(@" I am nil? %@ %@", baseImgUrl, cast_image_path);
 
         [baseImgUrl appendString:cast_image_path];
-        
-        
         
         NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
         NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
 
-        
         if(imagedata){
             UIImage *castImage = [UIImage imageWithData:imagedata];
             cell.imageView.image = castImage;
