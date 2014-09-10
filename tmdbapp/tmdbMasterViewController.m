@@ -201,27 +201,24 @@
            UIImage *cellImage = [UIImage imageWithData:downloadedData];        
              NSLog(@" Image downloaded for  %@" , [object description] );
              newCell.imageView.image = cellImage;
+             [cell setNeedsLayout];
              NSLog(@"Display image in main");
              if(cellImage)
              [memoryCache setObject:cellImage forKey:indexPath];
              NSLog(@" key set: %d ", indexPath.row);
-             
-             
-             // configure the call
-           
-
          });
        
            });
 
     }
+    // configure the cell
     cell.TitleLabel.text = [object description];
     cell.ratingLabel.text = [movieRating description];
     cell.releaseLabel.text = [movieRelease description];
     return cell;
 }
 
-//add methods to display before scrolling - fix async.
+/*add methods to display before scrolling - fix async.
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     isDragging_msg = FALSE;
@@ -235,7 +232,7 @@
 }
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
     isDecliring_msg = TRUE; }
-
+*/
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
