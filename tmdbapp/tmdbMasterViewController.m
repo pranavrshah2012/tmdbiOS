@@ -146,7 +146,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"Cell"] ;
+    CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[self.masterView dequeueReusableCellWithIdentifier:@"Cell"] ;
     cell.imageView.image = nil ;
 
 
