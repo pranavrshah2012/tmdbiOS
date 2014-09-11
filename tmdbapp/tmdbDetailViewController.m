@@ -22,8 +22,10 @@
     NSMutableDictionary *castDictionary;
     NSMutableArray *genresArray ;
     NSMutableString *listOfGenres;
-    NSMutableArray *production_companies;
+    NSMutableArray *production_companiesArray;
     NSMutableString *listOfProductionCompanies;
+    NSArray *languagesArray;
+    NSMutableString *listOfLanguages;
 }
 - (void)configureView;
 
@@ -57,10 +59,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@" Release, Rating %@%@", _release_segue, _rating_segue);
+    self.dateLabel.text = self.release_segue;
+    self.ratingLabel.text = self.rating_segue;
 
     listOfGenres = [NSMutableString stringWithString:@""];
+    listOfLanguages = [NSMutableString stringWithString:@""];
     castDictionary = [[NSMutableDictionary alloc] init];
-    production_companies = [[NSMutableDictionary alloc]init];
+    languagesArray = [[NSMutableArray alloc]init];
+    production_companiesArray = [[NSMutableDictionary alloc]init];
     listOfProductionCompanies = [NSMutableString stringWithString:@"" ];
     genresArray = [[NSMutableArray alloc]init];
     credits = @"/credits";
@@ -106,7 +113,7 @@
         NSURL *url=[NSURL URLWithString:jsonUrl];
         NSData *data=[NSData dataWithContentsOfURL:url];
         
-      //  NSLog(@"data jsonurl responseObject: %@", jsonUrl);
+       NSLog(@"data jsonurl responseObject: %@", jsonUrl);
         
         NSError *error=nil;
         id responseObject;
@@ -118,16 +125,32 @@
         
         title = [responseObject objectForKey:@"title"];
         genresArray = [responseObject objectForKey:@"genres"];
+        production_companiesArray = [responseObject objectForKey:@"production_companies"];
+        languagesArray = [responseObject objectForKey:@"spoken_languages"];
+        
+        for(id language in languagesArray)
+        {
+            [listOfLanguages appendString: [language objectForKey:@"name"]];
+            [listOfLanguages appendString: @" " ];
+            
+        }
+        
         
         for(id genre in genresArray)
         {
             [listOfGenres appendString: [genre objectForKey:@"name"] ];
-            [listOfGenres appendString: @" "];
+            [listOfGenres appendString: @" , "];
+        }
+        
+        for(id company in production_companiesArray)
+        {
+            [listOfProductionCompanies appendString: [company objectForKey:@"name"] ];
+            [listOfProductionCompanies appendString: @" "];
         }
         
         
         
-        NSLog(@"genres array %@ %@ ", genresArray, listOfGenres);
+        NSLog(@"details array %@ %@ %@ ", listOfProductionCompanies, listOfGenres, listOfLanguages);
         
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
      //   NSLog(@"suffix is: %@", suffix);
@@ -178,6 +201,9 @@
             self.poster.image = movieImage;
             self.synopsis.text = [responseObject objectForKey:@"overview"];
             self.titleLabel.text = [responseObject objectForKey:@"title"];
+            self.productionLabel.text = listOfProductionCompanies;
+            self.genresLabel.text = listOfGenres;
+            
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
             [self.scroller stopAnimating];

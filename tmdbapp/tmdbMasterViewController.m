@@ -313,7 +313,12 @@
         NSDate *object = ids[indexPath.row];
         
     [[segue destinationViewController] setDetailItem: object ];
-        [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
+    [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
+    [[segue destinationViewController] setRelease_segue: releases[indexPath.row]];
+    [[segue destinationViewController ] setRating_segue:
+     [NSString stringWithFormat: @"%@" ,ratings[indexPath.row]]];
+        
+         
     }
 }
 

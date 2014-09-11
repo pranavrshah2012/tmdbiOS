@@ -19,7 +19,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIView *downloadedView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *scroller;
-
+@property (readwrite) NSString *release_segue;
+@property (readwrite) NSString *rating_segue;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *genresLabel;
+@property (weak, nonatomic) IBOutlet UIView *languageLabel;
 
 
 @end
