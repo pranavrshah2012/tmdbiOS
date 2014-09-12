@@ -154,9 +154,9 @@
     NSObject *movieRating = ratings[indexPath.row];
     NSObject *movieRelease = releases [indexPath.row];
     NSObject *temp = urls [indexPath.row];
-    NSObject *poster_path = [temp description];
+    NSString *poster_path = [temp description];
  
-    baseImageUrl = @"";
+    baseImageUrl = [NSMutableString stringWithString:@""];
     baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     __block  NSURL *localUrl ;
    
@@ -258,7 +258,7 @@
         //NSLog(@"Scrolled me completely");
       page++;
 
-        downloadMoreUrl = [NSString stringWithFormat:@"%@%@%d",str, ampersandPage, (long)page ];
+        downloadMoreUrl = [NSMutableString stringWithFormat:@"%@%@%ld",str, ampersandPage, (long)page ];
       //  NSLog(@"url::  %@", downloadMoreUrl);
 
         //get full json using queue

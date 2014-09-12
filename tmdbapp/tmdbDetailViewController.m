@@ -67,7 +67,7 @@
     listOfLanguages = [NSMutableString stringWithString:@""];
     castDictionary = [[NSMutableDictionary alloc] init];
     languagesArray = [[NSMutableArray alloc]init];
-    production_companiesArray = [[NSMutableDictionary alloc]init];
+    production_companiesArray = [[NSMutableArray alloc]init];
     listOfProductionCompanies = [NSMutableString stringWithString:@"" ];
     genresArray = [[NSMutableArray alloc]init];
     credits = @"/credits";
@@ -295,7 +295,7 @@
              UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
    //          NSLog(@" Image downloaded ");
             UIImage *castImage = [UIImage imageWithData:imagedata];
-            cell.imageView.image = castImage;
+            newCell.imageView.image = castImage;
             //      NSLog(@" Image set ");
 
             [cell setNeedsLayout];

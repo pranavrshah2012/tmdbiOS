@@ -118,7 +118,7 @@ NSArray *options;
         // NSLog(@"I am called");
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = options[indexPath.row];
+       // NSDate *object = options[indexPath.row];
         //  NSLog(@"item: %@", [object description] );
         [[segue destinationViewController] setIndex:(indexPath.row)];
         [[segue destinationViewController] setChosenTitle:options[indexPath.row]];
