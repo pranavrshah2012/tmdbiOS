@@ -59,7 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@" Release, Rating %@%@", _release_segue, _rating_segue);
+  //  NSLog(@" Release, Rating %@%@", _release_segue, _rating_segue);
     self.dateLabel.text = self.release_segue;
     self.ratingLabel.text = self.rating_segue;
 
@@ -113,7 +113,7 @@
         NSURL *url=[NSURL URLWithString:jsonUrl];
         NSData *data=[NSData dataWithContentsOfURL:url];
         
-       NSLog(@"data jsonurl responseObject: %@", jsonUrl);
+       //NSLog(@"data jsonurl responseObject: %@", jsonUrl);
         
         NSError *error=nil;
         id responseObject;
@@ -150,7 +150,7 @@
         
         
         
-        NSLog(@"details array %@ %@ %@ ", listOfProductionCompanies, listOfGenres, listOfLanguages);
+       // NSLog(@"details array %@ %@ %@ ", listOfProductionCompanies, listOfGenres, listOfLanguages);
         
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
      //   NSLog(@"suffix is: %@", suffix);
@@ -203,6 +203,7 @@
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             self.productionLabel.text = listOfProductionCompanies;
             self.genresLabel.text = listOfGenres;
+            self.languageLabel.text = listOfLanguages;
             
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
@@ -271,7 +272,7 @@
     
     
     if(![cast_image_path isEqual:[NSNull null]]){
-       // NSLog(@" I am nil? %@ %@", baseImgUrl, cast_image_path);
+      //  NSLog(@" I am nil? %@ %@", baseImgUrl, cast_image_path);
         UIImage *checkForImage = [castDictionary objectForKey:indexPath];
         if(checkForImage)
         {
@@ -280,6 +281,8 @@
         }
         else {
         [baseImgUrl appendString:cast_image_path];
+       // NSLog(@" url cast%@ ", baseImgUrl);
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
         NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
@@ -293,6 +296,8 @@
    //          NSLog(@" Image downloaded ");
             UIImage *castImage = [UIImage imageWithData:imagedata];
             cell.imageView.image = castImage;
+            //      NSLog(@" Image set ");
+
             [cell setNeedsLayout];
             if(castImage)
                 [castDictionary setObject:castImage forKey:indexPath];

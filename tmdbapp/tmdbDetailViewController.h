@@ -25,7 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *genresLabel;
-@property (weak, nonatomic) IBOutlet UIView *languageLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *languageLabel;
 
 
 @end
