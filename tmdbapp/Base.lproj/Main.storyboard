@@ -20,9 +20,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="D0P-51-x3u">
+                                    <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="keM-Ks-6Ko" id="mEb-hV-bPu"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="Cell" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" rowHeight="78" id="Z6Z-xB-R6n" customClass="CustomCellTableViewCell">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z6Z-xB-R6n" id="8DQ-mU-YNt">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="77"/>
@@ -119,7 +127,7 @@
                     <connections>
                         <outlet property="masterView" destination="mLL-gJ-YKr" id="zgR-5X-2hE"/>
                         <outlet property="scrollWheel" destination="BRa-4a-DlD" id="lO5-UM-Sxp"/>
-                        <outlet property="searchDisplayController" destination="E6B-1C-OOb" id="sgw-4A-FQq"/>
+                        <outlet property="searchDisplayController" destination="bcH-BS-iHJ" id="DcE-j2-XzG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IdX-5C-WNj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -129,6 +137,15 @@
                         <outlet property="searchContentsController" destination="keM-Ks-6Ko" id="R2k-hr-K8i"/>
                         <outlet property="searchResultsDataSource" destination="keM-Ks-6Ko" id="gQp-6e-mK4"/>
                         <outlet property="searchResultsDelegate" destination="keM-Ks-6Ko" id="I6q-fz-nuU"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="bcH-BS-iHJ">
+                    <connections>
+                        <outlet property="delegate" destination="keM-Ks-6Ko" id="cha-WF-pHd"/>
+                        <outlet property="searchBar" destination="D0P-51-x3u" id="KEp-uY-tIg"/>
+                        <outlet property="searchContentsController" destination="keM-Ks-6Ko" id="VFJ-k1-aKZ"/>
+                        <outlet property="searchResultsDataSource" destination="keM-Ks-6Ko" id="lH4-4f-3yM"/>
+                        <outlet property="searchResultsDelegate" destination="keM-Ks-6Ko" id="KaE-wV-wgo"/>
                     </connections>
                 </searchDisplayController>
             </objects>

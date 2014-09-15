@@ -141,14 +141,33 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return [self.searchResult count];
+    }
+    else
+    {
+        return [_objects count];
+    }
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[self.masterView dequeueReusableCellWithIdentifier:@"Cell"] ;
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        cell.imageView.image = nil;
+        //cell.textLabel.text = @"";
+        cell.textLabel.text = [self.searchResult objectAtIndex:indexPath.row];
+        cell.ratingLabel.text = @"";
+        cell.TitleLabel.text = @"";
+        cell.releaseLabel.text = @"";
+        //cell.textLabel.text = [
+    }
+    else {
     cell.imageView.image = nil ;
-
     NSObject *object = _objects[indexPath.row];
     NSObject *movieRating = ratings[indexPath.row];
     NSObject *movieRelease = releases [indexPath.row];
@@ -157,11 +176,11 @@
     baseImageUrl = [NSMutableString stringWithString:@""];
     baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     __block  NSURL *localUrl ;
-    NSLog(@"poster_path : %@" , poster_path);
+   // NSLog(@"poster_path : %@" , poster_path);
    
     //if([poster_path class] != [NSNull class]){
          if(![poster_path isEqual:[NSNull null]]){
-        NSLog(@" movie name : %@", [object description]);
+       // NSLog(@" movie name : %@", [object description]);
     [baseImageUrl appendString:poster_path];
       localUrl = [NSURL URLWithString:baseImageUrl];
         //NSLog(@"in append block: %@", baseImageUrl);
@@ -203,12 +222,36 @@
            });
 
     }
+    
+    
     // configure the cell
     cell.TitleLabel.text = [object description];
     cell.ratingLabel.text = [movieRating description];
     cell.releaseLabel.text = [movieRelease description];
+    }
     return cell;
 }
+
+//search methods
+ - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+ {
+ [self.searchResult removeAllObjects];
+ NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
+ 
+ self.searchResult = [NSMutableArray arrayWithArray: [_objects filteredArrayUsingPredicate:resultPredicate]];
+ }
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+
+
+ 
+ 
 
 /*add methods to display before scrolling - fix async.
 

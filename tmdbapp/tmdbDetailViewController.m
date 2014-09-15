@@ -227,10 +227,7 @@
 
             // NSLog(@"title is: %@", self.titleLabel.text);
             //height
-           
-
-            
-            
+ 
         });
         
     });
@@ -345,10 +342,8 @@
     }
     
     return cell;
-    
-    
-    
 }
+
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
