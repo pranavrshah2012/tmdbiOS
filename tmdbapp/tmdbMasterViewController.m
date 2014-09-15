@@ -341,12 +341,27 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSIndexPath *indexPath;
+    NSString *titleToSearch;
+    NSDate *object;
+    int indexFound;
+    
     if ([[segue identifier] isEqualToString:@"show"]) {
-        NSIndexPath *indexPath = [self.masterView indexPathForSelectedRow];
-        NSDate *object = ids[indexPath.row];
+        if (self.searchDisplayController.active) {
+            indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            titleToSearch = _searchResult[indexPath.row];
+            [[segue destinationViewController] setDetailTitle: _searchResult[indexPath.row]];
+             indexFound = [_objects indexOfObject:titleToSearch];
+            object = ids[indexFound];
+        }
         
+        else{
+        indexPath = [self.masterView indexPathForSelectedRow];
+            object = ids[indexPath.row];
+            [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
+
+        }
     [[segue destinationViewController] setDetailItem: object ];
-    [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
     [[segue destinationViewController] setRelease_segue: releases[indexPath.row]];
     [[segue destinationViewController ] setRating_segue:
      [NSString stringWithFormat: @"%@" ,ratings[indexPath.row]]];
