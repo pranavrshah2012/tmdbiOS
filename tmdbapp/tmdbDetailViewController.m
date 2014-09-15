@@ -113,7 +113,7 @@
         NSURL *url=[NSURL URLWithString:jsonUrl];
         NSData *data=[NSData dataWithContentsOfURL:url];
         
-       //NSLog(@"data jsonurl responseObject: %@", jsonUrl);
+       NSLog(@"data jsonurl responseObject: %@", jsonUrl);
         
         NSError *error=nil;
         id responseObject;
@@ -127,31 +127,31 @@
         genresArray = [responseObject objectForKey:@"genres"];
         production_companiesArray = [responseObject objectForKey:@"production_companies"];
         languagesArray = [responseObject objectForKey:@"spoken_languages"];
-        
-        for(id language in languagesArray)
+        int i=0;
+        for( i =0 ; i < languagesArray.count; i++)
         {
-            [listOfLanguages appendString: [language objectForKey:@"name"]];
-            [listOfLanguages appendString: @" " ];
+            [listOfLanguages appendString: [languagesArray[i] objectForKey:@"name"]];
+            if(i!= ([languagesArray count]-1) )
+                [listOfLanguages appendString: @"," ];
             
         }
         
         
-        for(id genre in genresArray)
+        for(i =0 ; i < genresArray.count; i++)
         {
-            [listOfGenres appendString: [genre objectForKey:@"name"] ];
-            [listOfGenres appendString: @" , "];
+            [listOfGenres appendString: [genresArray[i] objectForKey:@"name"] ];
+            if(i!= ([genresArray count]-1) )
+            [listOfGenres appendString: @","];
         }
         
-        for(id company in production_companiesArray)
+        for(i =0 ; i < production_companiesArray.count; i++)
         {
-            [listOfProductionCompanies appendString: [company objectForKey:@"name"] ];
-            [listOfProductionCompanies appendString: @" "];
+            [listOfProductionCompanies appendString: [production_companiesArray[i] objectForKey:@"name"] ];
+            if(i!= ([genresArray count]-1) )
+            [listOfProductionCompanies appendString: @","];
         }
-        
-        
         
        // NSLog(@"details array %@ %@ %@ ", listOfProductionCompanies, listOfGenres, listOfLanguages);
-        
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
      //   NSLog(@"suffix is: %@", suffix);
 
@@ -200,6 +200,22 @@
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
             self.poster.image = movieImage;
             self.synopsis.text = [responseObject objectForKey:@"overview"];
+            [self.synopsis sizeToFit];
+            
+          //  NSLog(@" self.synopsisHeight %@ ", self.synopsisHeight);
+            
+            
+            if(self.synopsis.frame.size.height < self.synopsisHeight.constant)
+            {
+                self.synopsisHeight.constant = self.synopsis.frame.size.height;
+            }
+            
+            
+            
+            
+
+            
+            
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             self.productionLabel.text = listOfProductionCompanies;
             self.genresLabel.text = listOfGenres;
@@ -210,6 +226,10 @@
             [self.scroller stopAnimating];
 
             // NSLog(@"title is: %@", self.titleLabel.text);
+            //height
+           
+
+            
             
         });
         
@@ -287,6 +307,7 @@
 
         NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
         NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
+        //    NSLog(@" IMage path? %@", baseImgUrl);
 
             dispatch_async(dispatch_get_main_queue(), ^{
 
@@ -295,13 +316,14 @@
              UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
    //          NSLog(@" Image downloaded ");
             UIImage *castImage = [UIImage imageWithData:imagedata];
+            
             newCell.imageView.image = castImage;
             //      NSLog(@" Image set ");
 
             [cell setNeedsLayout];
             if(castImage)
                 [castDictionary setObject:castImage forKey:indexPath];
-
+            
         }
           
             });
@@ -311,6 +333,16 @@
         }//else
     }
     
+    else
+    {
+       // NSLog(@"cast image is %@", cast_image_path);
+        UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
+        [castDictionary setObject:defaultImage forKey:indexPath];
+
+      //  NSLog(@"default image is %@", pimage);
+
+        [cell.imageView setImage:defaultImage];
+    }
     
     return cell;
     

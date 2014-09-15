@@ -211,7 +211,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9c-u8-0Br">
+                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s9c-u8-0Br">
                                                 <rect key="frame" x="11" y="221" width="304" height="86"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <subviews>
@@ -428,6 +428,7 @@
                         <outlet property="ratingLabel" destination="Qch-oX-Djn" id="mgs-yB-GRe"/>
                         <outlet property="scroller" destination="VqL-V8-6pL" id="tMz-1f-zBM"/>
                         <outlet property="synopsis" destination="OUw-ud-9pK" id="MN8-6F-Tpf"/>
+                        <outlet property="synopsisHeight" destination="s0m-Av-hyr" id="qmP-wq-1yH"/>
                         <outlet property="titleLabel" destination="Gsz-ci-2Rg" id="fwS-Xu-0y6"/>
                     </connections>
                 </viewController>

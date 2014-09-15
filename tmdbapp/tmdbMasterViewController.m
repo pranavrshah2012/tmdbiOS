@@ -149,25 +149,30 @@
     CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[self.masterView dequeueReusableCellWithIdentifier:@"Cell"] ;
     cell.imageView.image = nil ;
 
-
     NSObject *object = _objects[indexPath.row];
     NSObject *movieRating = ratings[indexPath.row];
     NSObject *movieRelease = releases [indexPath.row];
-    NSObject *temp = urls [indexPath.row];
-    NSString *poster_path = [temp description];
+    NSString *poster_path = urls [indexPath.row];
  
     baseImageUrl = [NSMutableString stringWithString:@""];
     baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     __block  NSURL *localUrl ;
+    NSLog(@"poster_path : %@" , poster_path);
    
-    if(![poster_path isEqual:[NSNull null]]){
+    //if([poster_path class] != [NSNull class]){
+         if(![poster_path isEqual:[NSNull null]]){
+        NSLog(@" movie name : %@", [object description]);
     [baseImageUrl appendString:poster_path];
       localUrl = [NSURL URLWithString:baseImageUrl];
         //NSLog(@"in append block: %@", baseImageUrl);
 
     }
-    else   NSLog(@"object description :%@", [object description]);
-
+    else{
+        NSLog(@"in else block");
+        UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
+        [memoryCache setObject:defaultImage forKey:indexPath];
+        [cell.imageView setImage:defaultImage];
+        }
    UIImage *image = [memoryCache objectForKey:indexPath];
     //NSLog(@"image : %@%d", [image description], indexPath.row);
     if(image){
@@ -182,21 +187,6 @@
     // get and cache image async block
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
      NSData *downloadedData = [NSData dataWithContentsOfURL:localUrl];
-
-     /*if (downloadedData) {
-     
-     STORE IN FILESYSTEM
-     NSString* cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-     NSString *file = [cachesDirectory stringByAppendingPathComponent:baseImageUrl];
-     [downloadedData writeToFile:file atomically:YES];
-      
-     
-    // STORE IN MEMORY
-     [memoryCache setObject:downloadedData forKey:baseImageUrl];
-         NSLog(@"in dictionary block: %@", baseImageUrl);
-
-     }
-      */
      
          dispatch_async(dispatch_get_main_queue(), ^{
              CustomCellTableViewCell *newCell = (CustomCellTableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];

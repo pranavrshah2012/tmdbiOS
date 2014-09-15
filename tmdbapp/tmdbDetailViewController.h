@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productionLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *synopsisHeight;
 @property (weak, nonatomic) IBOutlet UILabel *genresLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *languageLabel;
