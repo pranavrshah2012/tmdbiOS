@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface Movie : NSObject
-@property (nonatomic,strong) NSString *movieName;
-@property (nonatomic,strong) NSString *movieRating;
-@property (nonatomic,strong) NSString *movieUrl;
-@property (nonatomic,strong) NSString *releaseDate;
-
+@property (nonatomic,strong, readwrite) NSString *name;
+@property (nonatomic,strong, readwrite) NSString *rating;
+@property (nonatomic,strong, readwrite) NSString *posterUrl;
+@property (nonatomic,strong, readwrite) NSString *releaseDate;
+@property (nonatomic, strong, readwrite) NSString *synopsis;
+@property (nonatomic, strong, readwrite) NSString *genre;
+@property (nonatomic, strong, readwrite) NSString *language;
 
 @end

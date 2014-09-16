@@ -48,18 +48,12 @@
 - (void)configureView
 {
     self.title = _detailTitle;
-    // Update the user interface for the detail item.
-    
-    if (self.detailItem) {
-        // self.detailDescriptionLabel.text = [self.detailItem description];
-
-    }
+  
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  //  NSLog(@" Release, Rating %@%@", _release_segue, _rating_segue);
     self.dateLabel.text = self.release_segue;
     self.ratingLabel.text = self.rating_segue;
 
@@ -75,31 +69,9 @@
     
     NSMutableString *jsonUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     key = [NSMutableString stringWithString:@"?api_key=c47afb8e8b27906bca710175d6e8ba68"];
- //   NSLog(@"append 1 is %@ %@ %@", jsonUrl, idOfMovie.description, key);
     [jsonUrl appendString:idOfMovie.description ];
     [jsonUrl appendString:key];
 
-    /*
-     NSURL *url=[NSURL URLWithString:baseUrl];
-     NSData *data=[NSData dataWithContentsOfURL:url];
-     // NSLog(@"baseUrl: %@", baseUrl);
-     
-     NSError *error=nil;
-     id response;
-     response=[NSJSONSerialization JSONObjectWithData:data options:
-     NSJSONReadingMutableContainers error:&error];
-     baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w500"];
-     //  NSLog(@"response is: %@", response);
-     
-     title = [response objectForKey:@"title"];
-     NSString *suffix =[response objectForKey:@"poster_path"];
-     
-     
-     if(![suffix isEqual:[NSNull null]])
-     [baseImgUrl appendString:suffix];
-     //  NSLog(@"title below suffix: %@", title);
-     //  NSLog(@"url below suffix: %@", baseImgUrl);
-     */
     
     
     [self.scroller setHidden:NO];
@@ -108,20 +80,13 @@
     
     //async using queue
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//        NSLog(@"baseurl is %@", baseUrl);
-
         NSURL *url=[NSURL URLWithString:jsonUrl];
         NSData *data=[NSData dataWithContentsOfURL:url];
-        
-       NSLog(@"data jsonurl responseObject: %@", jsonUrl);
-        
         NSError *error=nil;
         id responseObject;
         responseObject=[NSJSONSerialization JSONObjectWithData:data options:
                   NSJSONReadingMutableContainers error:&error];
         baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w342"];
-        
-     //   NSLog(@"response is: %@", re);
         
         title = [responseObject objectForKey:@"title"];
         genresArray = [responseObject objectForKey:@"genres"];
@@ -151,42 +116,26 @@
             [listOfProductionCompanies appendString: @","];
         }
         
-       // NSLog(@"details array %@ %@ %@ ", listOfProductionCompanies, listOfGenres, listOfLanguages);
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
-     //   NSLog(@"suffix is: %@", suffix);
 
         
         if(![suffix isEqual:[NSNull null]])
-       //     NSLog(@" append suffix %@ %@" , suffix, baseImgUrl);
             [baseImgUrl appendString:suffix];
-   //     NSLog(@" append after %@" , baseImgUrl);
 
-        //  NSLog(@"title below suffix: %@", title);
-        //  NSLog(@"url below suffix: %@", baseImgUrl);
-        
-        
-        // NSLog(@"detail: %@", baseImgUrl);
         NSData *downloadedData = [NSData dataWithContentsOfURL:[NSURL URLWithString:baseImgUrl]];
 
         if (downloadedData) {
-            
-            // STORE IN FILESYSTEM
-            NSString* cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            NSString *file = [cachesDirectory stringByAppendingPathComponent:baseImgUrl];
-            [downloadedData writeToFile:file atomically:YES];
             
             // STORE IN MEMORY
             [memoryCache setObject:downloadedData forKey:baseImgUrl];
             
             baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
-   //         NSLog(@"append 7 is %@ %@ %@", baseUrl, idOfMovie.description, key);
             [baseUrl appendString:idOfMovie.description ];
             [baseUrl appendString:credits];
             [baseUrl appendString:key];
 
             url=[NSURL URLWithString:baseUrl];
             data=[NSData dataWithContentsOfURL:url];
-            //    NSLog(@"baseUrl: %@", baseUrl);
             
             error=nil;
             id response=[NSJSONSerialization JSONObjectWithData:data options:
@@ -195,26 +144,16 @@
             
         }
         
-       // [NSThread sleepForTimeInterval:3];
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
             self.poster.image = movieImage;
             self.synopsis.text = [responseObject objectForKey:@"overview"];
             [self.synopsis sizeToFit];
-            
-          //  NSLog(@" self.synopsisHeight %@ ", self.synopsisHeight);
-            
-            
+
             if(self.synopsis.frame.size.height < self.synopsisHeight.constant)
             {
                 self.synopsisHeight.constant = self.synopsis.frame.size.height;
             }
-            
-            
-            
-            
-
-            
             
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             self.productionLabel.text = listOfProductionCompanies;
@@ -225,9 +164,6 @@
             [self.downloadedView setHidden:NO];
             [self.scroller stopAnimating];
 
-            // NSLog(@"title is: %@", self.titleLabel.text);
-            //height
- 
         });
         
     });
@@ -240,14 +176,10 @@
      
      NSURL *url=[NSURL URLWithString:baseUrl];
      NSData *data=[NSData dataWithContentsOfURL:url];
-     //    NSLog(@"baseUrl: %@", baseUrl);
-     
      NSError *error =nil;
      id response=[NSJSONSerialization JSONObjectWithData:data options:
      NSJSONReadingMutableContainers error:&error];
-     //    NSLog(@"credits are: %@", response);
      listOfActors = [response objectForKey:@"cast"]; //2
-     //  NSLog(@"cast is %@", listOfActors);
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -289,33 +221,27 @@
     
     
     if(![cast_image_path isEqual:[NSNull null]]){
-      //  NSLog(@" I am nil? %@ %@", baseImgUrl, cast_image_path);
         UIImage *checkForImage = [castDictionary objectForKey:indexPath];
         if(checkForImage)
         {
-    //        NSLog(@" found image ? $@", [checkForImage description]);
             cell.imageView.image= checkForImage;
         }
         else {
         [baseImgUrl appendString:cast_image_path];
-       // NSLog(@" url cast%@ ", baseImgUrl);
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
         NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
         NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
-        //    NSLog(@" IMage path? %@", baseImgUrl);
 
             dispatch_async(dispatch_get_main_queue(), ^{
 
         if(imagedata){
             
              UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
-   //          NSLog(@" Image downloaded ");
             UIImage *castImage = [UIImage imageWithData:imagedata];
             
             newCell.imageView.image = castImage;
-            //      NSLog(@" Image set ");
 
             [cell setNeedsLayout];
             if(castImage)
@@ -327,17 +253,13 @@
             
         });
             
-        }//else
+        }
     }
     
     else
     {
-       // NSLog(@"cast image is %@", cast_image_path);
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
         [castDictionary setObject:defaultImage forKey:indexPath];
-
-      //  NSLog(@"default image is %@", pimage);
-
         [cell.imageView setImage:defaultImage];
     }
     

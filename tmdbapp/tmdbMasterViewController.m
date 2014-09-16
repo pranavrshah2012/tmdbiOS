@@ -85,7 +85,7 @@
     [self.scrollWheel setHidden:NO];
     [self.scrollWheel startAnimating];
 
-     //get full json using queue
+     //get full json using async
      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
      NSURL *url=[NSURL URLWithString:str];
      NSData *data=[NSData dataWithContentsOfURL:url];
@@ -107,12 +107,9 @@
              [self.scrollWheel setHidden:YES];
              [self.masterView reloadData];
              [self.scrollWheel stopAnimating];
-             
          }
-
      });
-     
-     });
+          });
     
  }
 
@@ -155,15 +152,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[self.masterView dequeueReusableCellWithIdentifier:@"Cell"] ;
-    
+    NSInteger indexToSearchForImage;
     if (tableView == self.searchDisplayController.searchResultsTableView)
     {
         cell.imageView.image = nil;
-        //cell.textLabel.text = @"";
         cell.textLabel.text = [self.searchResult objectAtIndex:indexPath.row];
         cell.ratingLabel.text = @"";
         cell.TitleLabel.text = @"";
         cell.releaseLabel.text = @"";
+        indexToSearchForImage = [_objects indexOfObject:cell.textLabel.text];
+       // cell.imageView.image = [memoryCache objectForKey:indexToSearchForImage];
+        
         //cell.textLabel.text = [
     }
     else {
@@ -176,33 +175,24 @@
     baseImageUrl = [NSMutableString stringWithString:@""];
     baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     __block  NSURL *localUrl ;
-   // NSLog(@"poster_path : %@" , poster_path);
-   
-    //if([poster_path class] != [NSNull class]){
          if(![poster_path isEqual:[NSNull null]]){
-       // NSLog(@" movie name : %@", [object description]);
     [baseImageUrl appendString:poster_path];
       localUrl = [NSURL URLWithString:baseImageUrl];
-        //NSLog(@"in append block: %@", baseImageUrl);
-
+  
     }
     else{
-        NSLog(@"in else block");
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
+        
         [memoryCache setObject:defaultImage forKey:indexPath];
         [cell.imageView setImage:defaultImage];
         }
    UIImage *image = [memoryCache objectForKey:indexPath];
-    //NSLog(@"image : %@%d", [image description], indexPath.row);
     if(image){
-   //     NSLog(@"Display image outside main");
        cell.imageView.image = image;
 
     }
     else{
         
-  //required if async block uncommented
-
     // get and cache image async block
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
      NSData *downloadedData = [NSData dataWithContentsOfURL:localUrl];
@@ -210,15 +200,11 @@
          dispatch_async(dispatch_get_main_queue(), ^{
              CustomCellTableViewCell *newCell = (CustomCellTableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
            UIImage *cellImage = [UIImage imageWithData:downloadedData];        
-          //   NSLog(@" Image downloaded for  %@" , [object description] );
              newCell.imageView.image = cellImage;
              [cell setNeedsLayout];
-          //   NSLog(@"Display image in main");
              if(cellImage)
              [memoryCache setObject:cellImage forKey:indexPath];
-           //  NSLog(@" key set: %d ", indexPath.row);
          });
-       
            });
 
     }
@@ -249,26 +235,6 @@
 }
 
 
-
- 
- 
-
-/*add methods to display before scrolling - fix async.
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    isDragging_msg = FALSE;
-    [self.masterView reloadData];
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    isDecliring_msg = FALSE;
-    [self.masterView reloadData]; }
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    isDragging_msg = TRUE;
-}
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
-    isDecliring_msg = TRUE; }
-*/
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
@@ -288,12 +254,10 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 
     if (([scrollView contentOffset].y + scrollView.frame.size.height) == [scrollView contentSize].height){
-        //NSLog(@"Scrolled me completely");
       page++;
 
         downloadMoreUrl = [NSMutableString stringWithFormat:@"%@%@%ld",str, ampersandPage, (long)page ];
-      //  NSLog(@"url::  %@", downloadMoreUrl);
-
+        
         //get full json using queue
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSURL *url=[NSURL URLWithString:downloadMoreUrl];
@@ -321,23 +285,6 @@
         
     }
 }
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

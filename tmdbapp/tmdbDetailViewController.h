@@ -26,8 +26,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *productionLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *synopsisHeight;
 @property (weak, nonatomic) IBOutlet UILabel *genresLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel *languageLabel;
-
-
 @end
