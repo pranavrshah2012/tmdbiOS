@@ -151,6 +151,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  //  NSString *posterToSearch;
     CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[self.masterView dequeueReusableCellWithIdentifier:@"Cell"] ;
     NSInteger indexToSearchForImage;
     if (tableView == self.searchDisplayController.searchResultsTableView)
@@ -161,7 +162,7 @@
         cell.TitleLabel.text = @"";
         cell.releaseLabel.text = @"";
         indexToSearchForImage = [_objects indexOfObject:cell.textLabel.text];
-       // cell.imageView.image = [memoryCache objectForKey:indexToSearchForImage];
+        cell.imageView.image = [memoryCache objectForKey:urls[indexToSearchForImage]];
         
         //cell.textLabel.text = [
     }
@@ -183,10 +184,13 @@
     else{
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
         
-        [memoryCache setObject:defaultImage forKey:indexPath];
+        [memoryCache setObject:defaultImage forKey:poster_path];
+       //w [memoryCache setObject:defaultImage forKey:indexPath];
         [cell.imageView setImage:defaultImage];
         }
-   UIImage *image = [memoryCache objectForKey:indexPath];
+   
+      UIImage *image = [memoryCache objectForKey:poster_path];
+//w   UIImage *image = [memoryCache objectForKey:indexPath];
     if(image){
        cell.imageView.image = image;
 
@@ -203,7 +207,7 @@
              newCell.imageView.image = cellImage;
              [cell setNeedsLayout];
              if(cellImage)
-             [memoryCache setObject:cellImage forKey:indexPath];
+             [memoryCache setObject:cellImage forKey:poster_path];
          });
            });
 
