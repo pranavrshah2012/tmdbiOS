@@ -14,7 +14,6 @@
     NSMutableString *key;
     NSString *title;
     NSMutableString *baseImgUrl;
-    //   id response;
     NSMutableString *movieInfo;
     NSString *credits;
     NSMutableArray *listOfActors;
@@ -73,7 +72,7 @@
     [jsonUrl appendString:key];
 
     
-    
+    //loading animation
     [self.scroller setHidden:NO];
     [self.downloadedView setHidden:YES];
     [self.scroller startAnimating];
@@ -93,40 +92,33 @@
         production_companiesArray = [responseObject objectForKey:@"production_companies"];
         languagesArray = [responseObject objectForKey:@"spoken_languages"];
         int i=0;
-        for( i =0 ; i < languagesArray.count; i++)
-        {
+        for( i =0 ; i < languagesArray.count; i++){
             [listOfLanguages appendString: [languagesArray[i] objectForKey:@"name"]];
             if(i!= ([languagesArray count]-1) )
                 [listOfLanguages appendString: @"," ];
-            
         }
         
         
-        for(i =0 ; i < genresArray.count; i++)
-        {
+        for(i =0 ; i < genresArray.count; i++){
             [listOfGenres appendString: [genresArray[i] objectForKey:@"name"] ];
             if(i!= ([genresArray count]-1) )
             [listOfGenres appendString: @","];
         }
         
-        for(i =0 ; i < production_companiesArray.count; i++)
-        {
+        for(i =0 ; i < production_companiesArray.count; i++){
             [listOfProductionCompanies appendString: [production_companiesArray[i] objectForKey:@"name"] ];
             if(i!= ([genresArray count]-1) )
             [listOfProductionCompanies appendString: @","];
         }
         
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
-
-        
         if(![suffix isEqual:[NSNull null]])
             [baseImgUrl appendString:suffix];
 
         NSData *downloadedData = [NSData dataWithContentsOfURL:[NSURL URLWithString:baseImgUrl]];
 
         if (downloadedData) {
-            
-            // STORE IN MEMORY
+            // caching
             [memoryCache setObject:downloadedData forKey:baseImgUrl];
             
             baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
@@ -152,10 +144,9 @@
             if(![self.synopsis.text isEqual:[NSNull null]]){
             [self.synopsis sizeToFit];
 
-            if(self.synopsis.frame.size.height < self.synopsisHeight.constant)
-            {
+              if(self.synopsis.frame.size.height < self.synopsisHeight.constant){
                 self.synopsisHeight.constant = self.synopsis.frame.size.height;
-            }
+              }
             }
             
             self.titleLabel.text = [responseObject objectForKey:@"title"];
@@ -215,67 +206,49 @@ int count =1;
     {
         NSLog(@"Cell is nil");
     }
-    // Configure the cell.
 
+    // Configure the cell.
     cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
-    
     cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
     
     NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
-
-    
     baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
-    
-    
     if(![cast_image_path isEqual:[NSNull null]]){
         UIImage *checkForImage = [castDictionary objectForKey:indexPath];
-        if(checkForImage)
-        {
+        if(checkForImage){
             cell.imageView.image= checkForImage;
         }
         else {
         [baseImgUrl appendString:cast_image_path];
-
+            
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
         NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
         NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
 
             dispatch_async(dispatch_get_main_queue(), ^{
-
         if(imagedata){
-            
              UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
             UIImage *castImage = [UIImage imageWithData:imagedata];
-            
             newCell.imageView.image = castImage;
 
             [cell setNeedsLayout];
             if(castImage)
                 [castDictionary setObject:castImage forKey:indexPath];
-            
-            
         }
-          
             });
-            
         });
             
         }
     }
     
-    else
-    {
-
+    else{
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
         [castDictionary setObject:defaultImage forKey:indexPath];
         [cell.imageView setImage:defaultImage];
-
     }
     
     return cell;
 }
-
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -292,6 +265,4 @@ int count =1;
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
-
-
 @end
