@@ -68,12 +68,7 @@ NSArray *options;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showMeMaster"]) {
-        
-        // NSLog(@"I am called");
-        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-       // NSDate *object = options[indexPath.row];
-        //  NSLog(@"item: %@", [object description] );
         [[segue destinationViewController] setIndex:(indexPath.row)];
         [[segue destinationViewController] setChosenTitle:options[indexPath.row]];
     }

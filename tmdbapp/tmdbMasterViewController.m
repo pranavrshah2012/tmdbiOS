@@ -9,6 +9,7 @@
 #import "tmdbMasterViewController.h"
 #import "constants.h"
 #import "CustomCellTableViewCell.h"
+#import "Movie.h"
 #import "tmdbDetailViewController.h"
 
 
@@ -16,6 +17,7 @@
     NSMutableArray *_objects;
     NSString *key;
     id movieObject;
+    NSMutableArray *listOfMovies;
     NSMutableArray *results;
     NSMutableArray *ratings;
     NSMutableArray *releases;
@@ -24,11 +26,11 @@
     NSInteger count;
     NSMutableString *baseImageUrl;
     NSMutableDictionary *memoryCache;
-    BOOL isDragging_msg, isDecliring_msg;
     NSInteger page;
     NSMutableString *str ;
     NSMutableString *ampersandPage;
     NSMutableString *downloadMoreUrl;
+    Movie *movie;
 }
 @end
 
@@ -74,6 +76,8 @@
     ratings=  [[NSMutableArray alloc]init];
     urls=  [[NSMutableArray alloc]init];
     ids = [[NSMutableArray alloc]init];
+    listOfMovies = [[NSMutableArray alloc]init];
+    
     self.title = _chosenTitle;
     
     str =     [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
@@ -95,14 +99,24 @@
                       NSJSONReadingMutableContainers error:&error];
          
          results = [response objectForKey:@"results"];
+         
+        //to make movie object
+         for( movieObject in results){
+             movie = [[Movie alloc]init];
+             [movie createMovieObjectFromJson: movieObject];
+            [listOfMovies addObject: movie];
+           // NSLog(@"-> %@ %@ %@ %@ %@" , movie.id, movie.title, movie.releaseDate, movie.rating, movie.posterUrl);
+         }
+       
      
      dispatch_async(dispatch_get_main_queue(), ^{
          for(movieObject in results){
+           //next 4 lines not required
              [_objects addObject: [movieObject objectForKey : @"original_title" ]];
-             [releases addObject: [movieObject objectForKey : @"release_date" ]];
-             [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
-             [urls addObject: [movieObject objectForKey : @"poster_path"]];
-             [ids addObject: [movieObject objectForKey:@"id"]];
+           //  [releases addObject: [movieObject objectForKey : @"release_date" ]];
+           //  [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
+           //  [urls addObject: [movieObject objectForKey : @"poster_path"]];
+           //  [ids addObject: [movieObject objectForKey:@"id"]];
              [self.masterView setHidden:NO];
              [self.scrollWheel setHidden:YES];
              [self.masterView reloadData];
@@ -144,7 +158,8 @@
     }
     else
     {
-        return [_objects count];
+        return [listOfMovies count];
+        //w return [_objects count];
     }
 }
 
@@ -157,21 +172,34 @@
     if (tableView == self.searchDisplayController.searchResultsTableView)
     {
         cell.imageView.image = nil;
-        cell.textLabel.text = [self.searchResult objectAtIndex:indexPath.row];
+        Movie *foundMovie = [self.searchResult objectAtIndex:indexPath.row];
+       
+        cell.textLabel.text =  foundMovie.title;
+  
+        //w cell.textLabel.text = [self.searchResult objectAtIndex:indexPath.row];
         cell.ratingLabel.text = @"";
         cell.TitleLabel.text = @"";
         cell.releaseLabel.text = @"";
-        indexToSearchForImage = [_objects indexOfObject:cell.textLabel.text];
-        cell.imageView.image = [memoryCache objectForKey:urls[indexToSearchForImage]];
         
-        //cell.textLabel.text = [
+      //not req
+        indexToSearchForImage = [_objects indexOfObject:cell.textLabel.text];
+        
+        cell.imageView.image = [memoryCache objectForKey: foundMovie.posterUrl];
     }
     else {
-    cell.imageView.image = nil ;
+        cell.imageView.image = nil ;
+        
+        //NSObject *object = listOfMovies[indexPath.row];
     NSObject *object = _objects[indexPath.row];
-    NSObject *movieRating = ratings[indexPath.row];
-    NSObject *movieRelease = releases [indexPath.row];
-    NSString *poster_path = urls [indexPath.row];
+        //experiemnt WORKED.
+        
+    NSObject *movieRating = ((Movie *)listOfMovies[indexPath.row]).rating ;
+    NSObject *movieRelease = ((Movie *)listOfMovies [indexPath.row]).releaseDate;
+    NSString *poster_path = ((Movie *) listOfMovies[indexPath.row]).posterUrl;
+    
+    //NSObject *movieRating = ratings[indexPath.row];
+    //NSObject *movieRelease = releases [indexPath.row];
+    //NSString *poster_path = urls [indexPath.row];
  
     baseImageUrl = [NSMutableString stringWithString:@""];
     baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
@@ -183,7 +211,7 @@
     }
     else{
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
-        
+    
         [memoryCache setObject:defaultImage forKey:poster_path];
        //w [memoryCache setObject:defaultImage forKey:indexPath];
         [cell.imageView setImage:defaultImage];
@@ -226,9 +254,16 @@
  - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
  {
  [self.searchResult removeAllObjects];
- NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
+     
+     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@", searchText];
+     
+     self.searchResult = [NSMutableArray arrayWithArray: [listOfMovies filteredArrayUsingPredicate:resultPredicate]];
+     
+     
+ /*NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
  
  self.searchResult = [NSMutableArray arrayWithArray: [_objects filteredArrayUsingPredicate:resultPredicate]];
+  */
  }
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
@@ -271,14 +306,22 @@
                          NSJSONReadingMutableContainers error:&error];
             
             res = [res objectForKey:@"results"];
+            for( movieObject in res){
+                movie = [[Movie alloc]init];
+                [movie createMovieObjectFromJson: movieObject];
+                [listOfMovies addObject: movie];
+                //   NSLog(@"-> %@ %@ %@ %@" , movie.title, movie.releaseDate, movie.rating, movie.posterUrl);
+            }
+            
+
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 for(movieObject in res){
                     [_objects addObject: [movieObject objectForKey : @"original_title" ]];
-                    [releases addObject: [movieObject objectForKey : @"release_date" ]];
-                    [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
-                    [urls addObject: [movieObject objectForKey : @"poster_path"]];
-                    [ids addObject: [movieObject objectForKey:@"id"]];
+                 //w   [releases addObject: [movieObject objectForKey : @"release_date" ]];
+                 //w   [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
+                 //w   [urls addObject: [movieObject objectForKey : @"poster_path"]];
+                 //w   [ids addObject: [movieObject objectForKey:@"id"]];
                     [self.masterView reloadData];
       
                 }
@@ -294,28 +337,44 @@
 {
     NSIndexPath *indexPath;
     NSString *titleToSearch;
-    NSDate *object;
+    NSString *chosenId;
     int indexFound;
     
     if ([[segue identifier] isEqualToString:@"show"]) {
         if (self.searchDisplayController.active) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            
+            //not req
             titleToSearch = _searchResult[indexPath.row];
-            [[segue destinationViewController] setDetailTitle: _searchResult[indexPath.row]];
-             indexFound = [_objects indexOfObject:titleToSearch];
-            object = ids[indexFound];
+            
+            
+            [[segue destinationViewController] setDetailTitle:
+             ((Movie*)_searchResult[indexPath.row]).title];
+            
+           //w    [[segue destinationViewController] setDetailTitle:_searchResult[indexPath.row]];
+         
+            //not req
+            indexFound = [_objects indexOfObject:titleToSearch];
+            
+            chosenId = ((Movie*) _searchResult[indexPath.row]).id;
+            //chosenId = ids[indexFound];
         }
         
         else{
         indexPath = [self.masterView indexPathForSelectedRow];
-            object = ids[indexPath.row];
-            [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
+            chosenId = ((Movie*)listOfMovies[indexPath.row]).id;
+            //w object = ids[indexPath.row];
+        
+            [[segue destinationViewController] setDetailTitle: ((Movie*) listOfMovies[indexPath.row]).title];
+
+            //w [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
 
         }
-    [[segue destinationViewController] setDetailItem: object ];
-    [[segue destinationViewController] setRelease_segue: releases[indexPath.row]];
-    [[segue destinationViewController ] setRating_segue:
-     [NSString stringWithFormat: @"%@" ,ratings[indexPath.row]]];
+    [[segue destinationViewController] setDetailItem: chosenId ];
+    [[segue destinationViewController] setRelease_segue: ((Movie*)listOfMovies[indexPath.row]).releaseDate];
+        [[segue destinationViewController ] setRating_segue: //((Movie *)listOfMovies[indexPath]).rating;
+     [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
+      //,ratings[indexPath.row]]];
         
          
     }

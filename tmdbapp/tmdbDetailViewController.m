@@ -148,11 +148,14 @@
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
             self.poster.image = movieImage;
             self.synopsis.text = [responseObject objectForKey:@"overview"];
+
+            if(![self.synopsis.text isEqual:[NSNull null]]){
             [self.synopsis sizeToFit];
 
             if(self.synopsis.frame.size.height < self.synopsisHeight.constant)
             {
                 self.synopsisHeight.constant = self.synopsis.frame.size.height;
+            }
             }
             
             self.titleLabel.text = [responseObject objectForKey:@"title"];
@@ -182,6 +185,7 @@
      listOfActors = [response objectForKey:@"cast"]; //2
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -201,9 +205,10 @@
 {
     return listOfActors.count;
 }
-
+int count =1;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    count++;
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"cell"] ;
     cell.imageView.image= nil;
     if(!cell)
@@ -211,11 +216,13 @@
         NSLog(@"Cell is nil");
     }
     // Configure the cell.
+
     cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
     
     cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
     
     NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
+
     
     baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     
@@ -247,6 +254,7 @@
             if(castImage)
                 [castDictionary setObject:castImage forKey:indexPath];
             
+            
         }
           
             });
@@ -258,9 +266,11 @@
     
     else
     {
+
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
         [castDictionary setObject:defaultImage forKey:indexPath];
         [cell.imageView setImage:defaultImage];
+
     }
     
     return cell;
