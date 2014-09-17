@@ -348,7 +348,7 @@
     }*/
     
     [tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] animated:YES];
-    NSLog(@"am i calleD?");
+  //  NSLog(@"am i calleD?");
 }
 
 
@@ -359,8 +359,8 @@
     NSString *chosenId;
     int indexFound;
     
-  if ([[segue identifier] isEqualToString:@"show"]) {
-  //   if ([[segue identifier] isEqualToString:@"sectionDetail"]) {
+  //if ([[segue identifier] isEqualToString:@"show"]) {
+    if ([[segue identifier] isEqualToString:@"sectionDetail"]) {
          NSLog(@"in?");
     if (self.searchDisplayController.active) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
