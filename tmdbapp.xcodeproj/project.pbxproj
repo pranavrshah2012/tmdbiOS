@@ -10,7 +10,6 @@
 		8110249419B9DDA4007CF550 /* tmdbIndexPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */; };
 		814B4B0619B92E3700D5FDBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814B4B0419B92E3700D5FDBA /* Main.storyboard */; };
 		815A207419C8F0400041C2F9 /* SectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815A207319C8F0400041C2F9 /* SectionDetailViewController.m */; };
-		815A207719C954350041C2F9 /* tmdbRotatingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815A207619C954350041C2F9 /* tmdbRotatingTableViewController.m */; };
 		817376F719B8018900733619 /* images.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 817376F619B8018900733619 /* images.jpeg */; };
 		817376FA19B80E2200733619 /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 817376F919B80E2200733619 /* constants.m */; };
 		817376FF19B8E2F000733619 /* CustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 817376FE19B8E2F000733619 /* CustomCellTableViewCell.m */; };
@@ -29,6 +28,7 @@
 		8194F97919B7F45F00078E80 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194F97719B7F45F00078E80 /* InfoPlist.strings */; };
 		8194F97B19B7F45F00078E80 /* tmdbappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F97A19B7F45F00078E80 /* tmdbappTests.m */; };
 		8194F98619B7FBC900078E80 /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 8194F98519B7FBC900078E80 /* Movie.m */; };
+		819A119219CA114200B60A76 /* customizeSectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819A119119CA114200B60A76 /* customizeSectionTableViewController.m */; };
 		81A2F84219C39A7100E6B991 /* images-3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 81A2F84119C39A7100E6B991 /* images-3.jpeg */; };
 /* End PBXBuildFile section */
 
@@ -48,8 +48,6 @@
 		814B4B0519B92E3700D5FDBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		815A207219C8F0400041C2F9 /* SectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SectionDetailViewController.h; path = ../SectionDetailViewController.h; sourceTree = "<group>"; };
 		815A207319C8F0400041C2F9 /* SectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SectionDetailViewController.m; path = ../SectionDetailViewController.m; sourceTree = "<group>"; };
-		815A207519C954350041C2F9 /* tmdbRotatingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tmdbRotatingTableViewController.h; sourceTree = "<group>"; };
-		815A207619C954350041C2F9 /* tmdbRotatingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tmdbRotatingTableViewController.m; sourceTree = "<group>"; };
 		817376F619B8018900733619 /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
 		817376F819B80E2200733619 /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		817376F919B80E2200733619 /* constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = constants.m; sourceTree = "<group>"; };
@@ -77,6 +75,8 @@
 		8194F97A19B7F45F00078E80 /* tmdbappTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tmdbappTests.m; sourceTree = "<group>"; };
 		8194F98419B7FBC900078E80 /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
 		8194F98519B7FBC900078E80 /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		819A119019CA114200B60A76 /* customizeSectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customizeSectionTableViewController.h; sourceTree = "<group>"; };
+		819A119119CA114200B60A76 /* customizeSectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customizeSectionTableViewController.m; sourceTree = "<group>"; };
 		81A2F84119C39A7100E6B991 /* images-3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "images-3.jpeg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,8 +107,6 @@
 		8194F94019B7F45E00078E80 = {
 			isa = PBXGroup;
 			children = (
-				815A207519C954350041C2F9 /* tmdbRotatingTableViewController.h */,
-				815A207619C954350041C2F9 /* tmdbRotatingTableViewController.m */,
 				8194F95219B7F45F00078E80 /* tmdbapp */,
 				8194F97419B7F45F00078E80 /* tmdbappTests */,
 				8194F94B19B7F45E00078E80 /* Frameworks */,
@@ -158,6 +156,8 @@
 				817376FE19B8E2F000733619 /* CustomCellTableViewCell.m */,
 				8110249219B9DDA4007CF550 /* tmdbIndexPageController.h */,
 				8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */,
+				819A119019CA114200B60A76 /* customizeSectionTableViewController.h */,
+				819A119119CA114200B60A76 /* customizeSectionTableViewController.m */,
 			);
 			path = tmdbapp;
 			sourceTree = "<group>";
@@ -296,12 +296,12 @@
 				8194F95919B7F45F00078E80 /* main.m in Sources */,
 				815A207419C8F0400041C2F9 /* SectionDetailViewController.m in Sources */,
 				8194F96319B7F45F00078E80 /* tmdbMasterViewController.m in Sources */,
+				819A119219CA114200B60A76 /* customizeSectionTableViewController.m in Sources */,
 				8194F98619B7FBC900078E80 /* Movie.m in Sources */,
 				817376FA19B80E2200733619 /* constants.m in Sources */,
 				8110249419B9DDA4007CF550 /* tmdbIndexPageController.m in Sources */,
 				8194F96619B7F45F00078E80 /* tmdbDetailViewController.m in Sources */,
 				8194F95D19B7F45F00078E80 /* tmdbAppDelegate.m in Sources */,
-				815A207719C954350041C2F9 /* tmdbRotatingTableViewController.m in Sources */,
 				817376FF19B8E2F000733619 /* CustomCellTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

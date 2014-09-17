@@ -153,6 +153,8 @@ NSMutableString *listOfLanguages;
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
             self.poster.image = movieImage;
             self.synopsis.text = [responseObject objectForKey:@"overview"];
+           // int numberOfLines = (self.synopsisHeight.constant)/17;
+          //  NSLog(@" height before is %d %f" , numberOfLines, self.synopsisHeight.constant );
             
             if(![self.synopsis.text isEqual:[NSNull null]]){
                 [self.synopsis sizeToFit];
@@ -161,6 +163,8 @@ NSMutableString *listOfLanguages;
                     self.synopsisHeight.constant = self.synopsis.frame.size.height;
                 }
             }
+           // NSLog(@" height after is %d %f" , numberOfLines, self.synopsisHeight.constant );
+
             
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             self.productionLabel.text = listOfProductionCompanies;
@@ -223,11 +227,13 @@ NSMutableString *listOfLanguages;
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
+    
+    
     // Configure the cell...
     
     return cell;
-}
-*/
+}*/
+
 
 /*
 // Override to support conditional editing of the table view.

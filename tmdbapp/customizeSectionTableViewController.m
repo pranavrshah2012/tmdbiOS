@@ -1,38 +1,49 @@
 //
-//  tmdbDetailViewController.m
+//  customizeSectionTableViewController.m
 //  tmdbapp
 //
-//  Created by Pranav on 9/3/14.
+//  Created by Pranav on 9/17/14.
 //  Copyright (c) 2014 ___Pranav___. All rights reserved.
 //
 
-#import "tmdbDetailViewController.h"
+#import "customizeSectionTableViewController.h"
 
-@interface tmdbDetailViewController (){
-    NSMutableString *baseUrl;
-    NSMutableString *posterUrl;
-    NSMutableString *key;
-    NSString *title;
-    NSMutableString *baseImgUrl;
-    NSMutableString *movieInfo;
-    NSString *credits;
-    NSMutableArray *listOfActors;
-    NSCache *memoryCache;
-    NSMutableDictionary *castDictionary;
-    NSMutableArray *genresArray ;
-    NSMutableString *listOfGenres;
-    NSMutableArray *production_companiesArray;
-    NSMutableString *listOfProductionCompanies;
-    NSArray *languagesArray;
-    NSMutableString *listOfLanguages;
+@interface customizeSectionTableViewController (){
+NSMutableString *baseUrl;
+NSMutableString *posterUrl;
+NSMutableString *key;
+NSString *title;
+NSMutableString *baseImgUrl;
+NSMutableString *movieInfo;
+NSString *credits;
+NSMutableArray *listOfActors;
+NSCache *memoryCache;
+NSMutableDictionary *castDictionary;
+NSMutableArray *genresArray ;
+NSMutableString *listOfGenres;
+NSMutableArray *production_companiesArray;
+NSMutableString *listOfProductionCompanies;
+NSMutableArray *languagesArray;
+NSMutableString *listOfLanguages;
+    
+//NSMutableString *title;
+    
+    
+    NSArray *headers;
+    UIImage *posterView;
+    NSMutableString *synopsisText;
+    NSMutableString *productionText;
+    NSMutableString *genreText;
+    NSMutableString *languageText;
+    
+    
 }
 - (void)configureView;
 
 @end
 
-@implementation tmdbDetailViewController
 
-#pragma mark - Managing the detail item
+@implementation customizeSectionTableViewController
 
 
 //left
@@ -48,15 +59,25 @@
 
 - (void)configureView
 {
-    self.title = _detailTitle;
-  
+   self.title = _detailTitle;
+    
 }
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    headers = @[[ NSNull null] ,@"Poster", @"Synopsis", @"Production", @"Genre", @"Language", @"Cast"];
+    
     self.dateLabel.text = self.release_segue;
     self.ratingLabel.text = self.rating_segue;
+
+    posterView = [[UIImage alloc]init];
+    synopsisText = [NSMutableString stringWithString:@""];
+    productionText = [NSMutableString stringWithString:@""];
+    genreText = [NSMutableString stringWithString:@""];
+    languageText = [NSMutableString stringWithString:@""];
 
     listOfGenres = [NSMutableString stringWithString:@""];
     listOfLanguages = [NSMutableString stringWithString:@""];
@@ -70,10 +91,9 @@
     
     NSMutableString *jsonUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     key = [NSMutableString stringWithString:@"?api_key=c47afb8e8b27906bca710175d6e8ba68"];
-  //  NSLog(@"lol");
     [jsonUrl appendString:idOfMovie.description ];
     [jsonUrl appendString:key];
-
+    
     
     //loading animation
     [self.scroller setHidden:NO];
@@ -87,7 +107,7 @@
         NSError *error=nil;
         id responseObject;
         responseObject=[NSJSONSerialization JSONObjectWithData:data options:
-                  NSJSONReadingMutableContainers error:&error];
+                        NSJSONReadingMutableContainers error:&error];
         baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w342"];
         
         title = [responseObject objectForKey:@"title"];
@@ -105,21 +125,21 @@
         for(i =0 ; i < genresArray.count; i++){
             [listOfGenres appendString: [genresArray[i] objectForKey:@"name"] ];
             if(i!= ([genresArray count]-1) )
-            [listOfGenres appendString: @","];
+                [listOfGenres appendString: @","];
         }
         
         for(i =0 ; i < production_companiesArray.count; i++){
             [listOfProductionCompanies appendString: [production_companiesArray[i] objectForKey:@"name"] ];
             if(i!= ([genresArray count]-1) )
-            [listOfProductionCompanies appendString: @","];
+                [listOfProductionCompanies appendString: @","];
         }
         
         NSString *suffix =[responseObject objectForKey:@"poster_path"];
         if(![suffix isEqual:[NSNull null]])
             [baseImgUrl appendString:suffix];
-
+        
         NSData *downloadedData = [NSData dataWithContentsOfURL:[NSURL URLWithString:baseImgUrl]];
-
+        
         if (downloadedData) {
             // caching
             [memoryCache setObject:downloadedData forKey:baseImgUrl];
@@ -128,58 +148,65 @@
             [baseUrl appendString:idOfMovie.description ];
             [baseUrl appendString:credits];
             [baseUrl appendString:key];
-
+            
             url=[NSURL URLWithString:baseUrl];
             data=[NSData dataWithContentsOfURL:url];
             
             error=nil;
             id response=[NSJSONSerialization JSONObjectWithData:data options:
-                      NSJSONReadingMutableContainers error:&error];
+                         NSJSONReadingMutableContainers error:&error];
             listOfActors = [response objectForKey:@"cast"]; //2
             
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
-            self.poster.image = movieImage;
+            posterView = movieImage;
             self.synopsis.text = [responseObject objectForKey:@"overview"];
-
+            
             if(![self.synopsis.text isEqual:[NSNull null]]){
-            [self.synopsis sizeToFit];
-
-              if(self.synopsis.frame.size.height < self.synopsisHeight.constant){
-                self.synopsisHeight.constant = self.synopsis.frame.size.height;
-              }
+                [self.synopsis sizeToFit];
+                
+                if(self.synopsis.frame.size.height < self.synopsisHeight.constant){
+                    self.synopsisHeight.constant = self.synopsis.frame.size.height;
+                }
             }
             
+            
             self.titleLabel.text = [responseObject objectForKey:@"title"];
-            self.productionLabel.text = listOfProductionCompanies;
-            self.genresLabel.text = listOfGenres;
-            self.languageLabel.text = listOfLanguages;
+            productionText = listOfProductionCompanies;
+            genreText = listOfGenres;
+            languageText = listOfLanguages;
+            NSLog( @" response object %@ %@ %@", listOfGenres, listOfLanguages, listOfProductionCompanies);
             
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
             [self.scroller stopAnimating];
-
+            
         });
         
     });
     
     //credits table
-     baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
+    baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     [baseUrl appendString:idOfMovie.description ];
-     [baseUrl appendString:credits];
-     [baseUrl appendString:key];
-     
-     NSURL *url=[NSURL URLWithString:baseUrl];
-     NSData *data=[NSData dataWithContentsOfURL:url];
-     NSError *error =nil;
-     id response=[NSJSONSerialization JSONObjectWithData:data options:
-     NSJSONReadingMutableContainers error:&error];
-     listOfActors = [response objectForKey:@"cast"]; //2
+    [baseUrl appendString:credits];
+    [baseUrl appendString:key];
+    
+    NSURL *url=[NSURL URLWithString:baseUrl];
+    NSData *data=[NSData dataWithContentsOfURL:url];
+    NSError *error =nil;
+    id response=[NSJSONSerialization JSONObjectWithData:data options:
+                 NSJSONReadingMutableContainers error:&error];
+    listOfActors = [response objectForKey:@"cast"]; //2
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
-
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -188,84 +215,102 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table View
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    // Return the number of sections.
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return listOfActors.count;
+    // Return the number of rows in the section.
+    return 1;
 }
-int count =1;
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    count++;
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"cell"] ;
-    cell.imageView.image= nil;
-    if(!cell)
-    {
-        NSLog(@"Cell is nil");
-    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"proto" forIndexPath:indexPath];
+    cell.textLabel.text = [NSString stringWithFormat:@" Section: %d", indexPath.section];
 
-    // Configure the cell.
-    cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
-    cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
-    
-    NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
-    baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
-    if(![cast_image_path isEqual:[NSNull null]]){
-        UIImage *checkForImage = [castDictionary objectForKey:indexPath];
-        if(checkForImage){
-            cell.imageView.image= checkForImage;
-        }
-        else {
-        [baseImgUrl appendString:cast_image_path];
+    switch (indexPath.section) {
+        case 0: cell.textLabel.text = title;
+            break;
+        case 1: cell.imageView.image = posterView;
+            break;
+        case 2:  cell.textLabel.text = synopsisText;
+            break;
+        case 3: cell.textLabel.text = productionText;
+            break;
+        case 4: cell.textLabel.text = genreText;
+            break;
+        case 5: cell.textLabel.text = languageText;
+            break;
             
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
-        NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-        if(imagedata){
-             UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
-            UIImage *castImage = [UIImage imageWithData:imagedata];
-            newCell.imageView.image = castImage;
-
-            [cell setNeedsLayout];
-            if(castImage)
-                [castDictionary setObject:castImage forKey:indexPath];
-        }
-            });
-        });
-            
-        }
-    }
-    
-    else{
-        UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
-        [castDictionary setObject:defaultImage forKey:indexPath];
-        [cell.imageView setImage:defaultImage];
     }
     
     return cell;
 }
 
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionHeader;
+    if(section !=0)
+    sectionHeader = [headers objectAtIndex:section];
+    return sectionHeader;
+}
+
+
+/*
+// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+*/
 
+/*
+// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [listOfActors removeObjectAtIndex:indexPath.row];
+        // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
 }
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
 @end

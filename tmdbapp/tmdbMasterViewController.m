@@ -360,8 +360,9 @@
     int indexFound;
     
   //if ([[segue identifier] isEqualToString:@"show"]) {
-    if ([[segue identifier] isEqualToString:@"sectionDetail"]) {
-         NSLog(@"in?");
+ //   if ([[segue identifier] isEqualToString:@"sectionDetail"]) {
+    if ([[segue identifier] isEqualToString:@"customizedSection"]) {
+   
     if (self.searchDisplayController.active) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
             
@@ -369,8 +370,7 @@
             titleToSearch = _searchResult[indexPath.row];
             
             
-            [[segue destinationViewController] setDetailTitle:
-             ((Movie*)_searchResult[indexPath.row]).title];
+         //   [[segue destinationViewController] setDetailTitle:((Movie*)_searchResult[indexPath.row]).title];
             
            //w    [[segue destinationViewController] setDetailTitle:_searchResult[indexPath.row]];
          
@@ -391,15 +391,15 @@
             //w [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
 
         }
-    [[segue destinationViewController] setDetailItem: chosenId ];
-    [[segue destinationViewController] setRelease_segue: ((Movie*)listOfMovies[indexPath.row]).releaseDate];
-        [[segue destinationViewController ] setRating_segue: //((Movie *)listOfMovies[indexPath]).rating;
-     [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
+   [[segue destinationViewController] setDetailItem: chosenId ];
+ //   [[segue destinationViewController] setRelease_segue: ((Movie*)listOfMovies[indexPath.row]).releaseDate];
+//        [[segue destinationViewController ] setRating_segue:
+         //w ((Movie *)listOfMovies[indexPath]).rating;
+//     [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
       //,ratings[indexPath.row]]];
         
          
     }
-    NSLog(@"out");
     
 }
 
