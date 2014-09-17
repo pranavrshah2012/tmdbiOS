@@ -164,6 +164,8 @@
 }
 
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   //  NSString *posterToSearch;
@@ -333,6 +335,23 @@
     }
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    /*
+    switch (indexPath.row) {
+        case 0: [self performSegueWithIdentifier:@"Segue0" sender:self];
+            break;
+        case 1: [self performSegueWithIdentifier:@"Segue1" sender:self];
+            break;
+        default: break;
+    }*/
+    
+    [tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] animated:YES];
+    NSLog(@"am i calleD?");
+}
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath;
@@ -340,8 +359,10 @@
     NSString *chosenId;
     int indexFound;
     
-    if ([[segue identifier] isEqualToString:@"show"]) {
-        if (self.searchDisplayController.active) {
+  if ([[segue identifier] isEqualToString:@"show"]) {
+  //   if ([[segue identifier] isEqualToString:@"sectionDetail"]) {
+         NSLog(@"in?");
+    if (self.searchDisplayController.active) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
             
             //not req
@@ -378,6 +399,8 @@
         
          
     }
+    NSLog(@"out");
+    
 }
 
 @end
