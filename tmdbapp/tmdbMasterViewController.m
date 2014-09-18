@@ -392,10 +392,11 @@
 
         }
    [[segue destinationViewController] setDetailItem: chosenId ];
- //   [[segue destinationViewController] setRelease_segue: ((Movie*)listOfMovies[indexPath.row]).releaseDate];
-//        [[segue destinationViewController ] setRating_segue:
+   [[segue destinationViewController] setRelease_segue: ((Movie*)listOfMovies[indexPath.row]).releaseDate];
+        [[segue destinationViewController ] setRating_segue:
          //w ((Movie *)listOfMovies[indexPath]).rating;
-//     [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
+     [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
+        NSLog(@"rating, %@", ((Movie *)listOfMovies[indexPath.row]).rating );
       //,ratings[indexPath.row]]];
         
          

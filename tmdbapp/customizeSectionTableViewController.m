@@ -181,13 +181,13 @@ NSMutableString *listOfLanguages;
             }
             
 
-            NSLog(@"overview : %@", synopsisText);
+//            NSLog(@"overview : %@", synopsisText);
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             productionText = listOfProductionCompanies;
             genreText = listOfGenres;
             languageText = listOfLanguages;
             [self.tableView reloadData];
-            NSLog( @" %@ %@ %@ %@", title, listOfGenres, listOfLanguages, listOfProductionCompanies);
+ //           NSLog( @" %@ %@ %@ %@", title, listOfGenres, listOfLanguages, listOfProductionCompanies);
             
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
@@ -242,6 +242,8 @@ NSMutableString *listOfLanguages;
 {
     if(section == ([headers count]-1))
        return [listOfActors count];
+    else if(section == 0)
+        return 2;
     // Return the number of rows in the section.
     else return 1;
        
@@ -252,11 +254,18 @@ NSMutableString *listOfLanguages;
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"proto" forIndexPath:indexPath];
     cell.imageView.image = nil;
+    cell.textLabel.text = nil;
+    cell.detailTextLabel.text = nil;
     
     switch (indexPath.section) {
         
         case 0: cell.textLabel.text = title;
-            [cell.textLabel sizeToFit];
+            if(indexPath.row == 1){
+                cell.textLabel.text = self.release_segue;
+            cell.detailTextLabel.text = self.rating_segue;
+                NSLog(@"segue %@", self.rating_segue);
+            }
+                [cell.textLabel sizeToFit];
                 break;
         
         case 1:
@@ -362,7 +371,7 @@ NSMutableString *listOfLanguages;
         case 1:
             size =  [posterView size];
             sizeValue = size.height;
-           NSLog(@" image width, heght %f %f", size.width, size.height);
+   //        NSLog(@" image width, heght %f %f", size.width, size.height);
             break;
             
         case 2:
