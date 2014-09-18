@@ -8,6 +8,7 @@
 
 #import "customizeSectionTableViewController.h"
 
+
 @interface customizeSectionTableViewController (){
 NSMutableString *baseUrl;
 NSMutableString *posterUrl;
@@ -26,9 +27,14 @@ NSMutableString *listOfProductionCompanies;
 NSMutableArray *languagesArray;
 NSMutableString *listOfLanguages;
     
+    
 //NSMutableString *title;
-    
-    
+    CGSize size;
+    CGFloat sizeValue;
+    CGRect boundRect;
+    CGRect screenRect;
+    CGFloat screenWidth;
+    NSMutableArray *height;
     NSArray *headers;
     UIImage *posterView;
     NSMutableString *synopsisText;
@@ -67,7 +73,9 @@ NSMutableString *listOfLanguages;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    screenRect = [[UIScreen mainScreen] bounds];
+    screenWidth = screenRect.size.width;
+    height = [[NSMutableArray alloc]init];
     headers = @[[ NSNull null] ,@"Poster", @"Synopsis", @"Production", @"Genre", @"Language", @"Cast"];
     
     self.dateLabel.text = self.release_segue;
@@ -162,7 +170,7 @@ NSMutableString *listOfLanguages;
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
             posterView = movieImage;
-            self.synopsis.text = [responseObject objectForKey:@"overview"];
+           [synopsisText appendString:[responseObject objectForKey:@"overview"]];
             
             if(![self.synopsis.text isEqual:[NSNull null]]){
                 [self.synopsis sizeToFit];
@@ -172,12 +180,14 @@ NSMutableString *listOfLanguages;
                 }
             }
             
-            
+
+            NSLog(@"overview : %@", synopsisText);
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             productionText = listOfProductionCompanies;
             genreText = listOfGenres;
             languageText = listOfLanguages;
-            NSLog( @" response object %@ %@ %@", listOfGenres, listOfLanguages, listOfProductionCompanies);
+            [self.tableView reloadData];
+            NSLog( @" %@ %@ %@ %@", title, listOfGenres, listOfLanguages, listOfProductionCompanies);
             
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
@@ -187,18 +197,22 @@ NSMutableString *listOfLanguages;
         
     });
     
-    //credits table
+    // credits table
     baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     [baseUrl appendString:idOfMovie.description ];
     [baseUrl appendString:credits];
     [baseUrl appendString:key];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
     NSURL *url=[NSURL URLWithString:baseUrl];
     NSData *data=[NSData dataWithContentsOfURL:url];
     NSError *error =nil;
     id response=[NSJSONSerialization JSONObjectWithData:data options:
                  NSJSONReadingMutableContainers error:&error];
     listOfActors = [response objectForKey:@"cast"]; //2
+    });
+    
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
     
@@ -220,37 +234,102 @@ NSMutableString *listOfLanguages;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
+    
     return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if(section == ([headers count]-1))
+       return [listOfActors count];
     // Return the number of rows in the section.
-    return 1;
+    else return 1;
+       
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"proto" forIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@" Section: %d", indexPath.section];
-
+    cell.imageView.image = nil;
+    
     switch (indexPath.section) {
+        
         case 0: cell.textLabel.text = title;
+            [cell.textLabel sizeToFit];
+                break;
+        
+        case 1:
+            cell.textLabel.text = nil;
+                cell.imageView.image = posterView;
+                break;
+        
+        case 2:
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            cell.textLabel.text = synopsisText;
             break;
-        case 1: cell.imageView.image = posterView;
-            break;
-        case 2:  cell.textLabel.text = synopsisText;
-            break;
-        case 3: cell.textLabel.text = productionText;
-            break;
-        case 4: cell.textLabel.text = genreText;
-            break;
-        case 5: cell.textLabel.text = languageText;
+        
+        case 3:
+            cell.textLabel.numberOfLines = 0;
+            cell.textLabel.text = productionText;
             break;
             
+        case 4:
+            cell.textLabel.numberOfLines = 0;
+            cell.textLabel.text = genreText;
+            break;
+            
+        case 5:
+            cell.textLabel.numberOfLines = 0;
+            cell.textLabel.text = languageText;
+            break;
+            
+        case 6:
+            cell.textLabel.text = nil;
+            cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
+            cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
+            
+            NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
+            baseImgUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
+            if(![cast_image_path isEqual:[NSNull null]]){
+                UIImage *checkForImage = [castDictionary objectForKey:indexPath];
+                if(checkForImage){
+                    cell.imageView.image= checkForImage;
+                }
+                else {
+                    [baseImgUrl appendString:cast_image_path];
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        NSURL * urlImage=[NSURL URLWithString:baseImgUrl];
+                        NSData *imagedata =[NSData dataWithContentsOfURL:urlImage];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if(imagedata){
+                                UITableViewCell *newCell = (UITableViewCell *)[tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
+                                UIImage *castImage = [UIImage imageWithData:imagedata];
+                                newCell.imageView.image = castImage;
+                                
+                                [cell setNeedsLayout];
+                                if(castImage)
+                                    [castDictionary setObject:castImage forKey:indexPath];
+                            }
+                        });
+                    });
+                    
+                }
+            }
+            
+            else{
+                UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
+                [castDictionary setObject:defaultImage forKey:indexPath];
+                [cell.imageView setImage:defaultImage];
+            }
+            
+        
+            
+ 
     }
-    
     return cell;
 }
 
@@ -261,6 +340,72 @@ NSMutableString *listOfLanguages;
     if(section !=0)
     sectionHeader = [headers objectAtIndex:section];
     return sectionHeader;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+ 
+    switch(indexPath.section)
+    {
+            
+        case 0:
+            boundRect = [title boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                                 context:nil];
+            
+             sizeValue = boundRect.size.height;
+ 
+     break;
+            
+        case 1:
+            size =  [posterView size];
+            sizeValue = size.height;
+           NSLog(@" image width, heght %f %f", size.width, size.height);
+            break;
+            
+        case 2:
+            boundRect = [synopsisText boundingRectWithSize:CGSizeMake(screenWidth, 999)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                            context:nil];
+            
+            
+            sizeValue = boundRect.size.height;
+            break;
+            
+        case 3:
+            boundRect = [productionText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                            context:nil];
+            
+            sizeValue = boundRect.size.height;
+            break;
+            
+        case 4:
+            boundRect = [genreText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                            context:nil];
+            
+            sizeValue = boundRect.size.height;
+            break;
+            
+        case 5:
+            boundRect = [languageText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                            context:nil];
+            
+            sizeValue = boundRect.size.height;
+            break;
+        
+        
+    }
+
+    return sizeValue;
 }
 
 
