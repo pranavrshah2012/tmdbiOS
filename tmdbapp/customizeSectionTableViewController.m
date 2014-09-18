@@ -10,25 +10,24 @@
 
 
 @interface customizeSectionTableViewController (){
-NSMutableString *baseUrl;
-NSMutableString *posterUrl;
-NSMutableString *key;
-NSString *title;
-NSMutableString *baseImgUrl;
-NSMutableString *movieInfo;
-NSString *credits;
-NSMutableArray *listOfActors;
-NSCache *memoryCache;
-NSMutableDictionary *castDictionary;
-NSMutableArray *genresArray ;
-NSMutableString *listOfGenres;
-NSMutableArray *production_companiesArray;
-NSMutableString *listOfProductionCompanies;
-NSMutableArray *languagesArray;
-NSMutableString *listOfLanguages;
+    NSMutableString *baseUrl;
+    NSMutableString *posterUrl;
+    NSMutableString *key;
+    NSString *title;
+    NSMutableString *baseImgUrl;
+    NSMutableString *movieInfo;
+    NSString *credits;
+    NSMutableArray *listOfActors;
+    NSCache *memoryCache;
+    NSMutableDictionary *castDictionary;
+    NSMutableArray *genresArray ;
+    NSMutableString *listOfGenres;
+    NSMutableArray *production_companiesArray;
+    NSMutableString *listOfProductionCompanies;
+    NSMutableArray *languagesArray;
+    NSMutableString *listOfLanguages;
     
     
-//NSMutableString *title;
     CGSize size;
     CGFloat sizeValue;
     CGRect boundRect;
@@ -65,7 +64,7 @@ NSMutableString *listOfLanguages;
 
 - (void)configureView
 {
-   self.title = _detailTitle;
+    self.title = _detailTitle;
     
 }
 
@@ -80,13 +79,13 @@ NSMutableString *listOfLanguages;
     
     self.dateLabel.text = self.release_segue;
     self.ratingLabel.text = self.rating_segue;
-
+    
     posterView = [[UIImage alloc]init];
     synopsisText = [NSMutableString stringWithString:@""];
     productionText = [NSMutableString stringWithString:@""];
     genreText = [NSMutableString stringWithString:@""];
     languageText = [NSMutableString stringWithString:@""];
-
+    
     listOfGenres = [NSMutableString stringWithString:@""];
     listOfLanguages = [NSMutableString stringWithString:@""];
     castDictionary = [[NSMutableDictionary alloc] init];
@@ -170,7 +169,7 @@ NSMutableString *listOfLanguages;
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *movieImage = [UIImage imageWithData:downloadedData];
             posterView = movieImage;
-           [synopsisText appendString:[responseObject objectForKey:@"overview"]];
+            [synopsisText appendString:[responseObject objectForKey:@"overview"]];
             
             if(![self.synopsis.text isEqual:[NSNull null]]){
                 [self.synopsis sizeToFit];
@@ -180,14 +179,11 @@ NSMutableString *listOfLanguages;
                 }
             }
             
-
-//            NSLog(@"overview : %@", synopsisText);
             self.titleLabel.text = [responseObject objectForKey:@"title"];
             productionText = listOfProductionCompanies;
             genreText = listOfGenres;
             languageText = listOfLanguages;
             [self.tableView reloadData];
- //           NSLog( @" %@ %@ %@ %@", title, listOfGenres, listOfLanguages, listOfProductionCompanies);
             
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
@@ -204,23 +200,17 @@ NSMutableString *listOfLanguages;
     [baseUrl appendString:key];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
-    NSURL *url=[NSURL URLWithString:baseUrl];
-    NSData *data=[NSData dataWithContentsOfURL:url];
-    NSError *error =nil;
-    id response=[NSJSONSerialization JSONObjectWithData:data options:
-                 NSJSONReadingMutableContainers error:&error];
-    listOfActors = [response objectForKey:@"cast"]; //2
+        
+        NSURL *url=[NSURL URLWithString:baseUrl];
+        NSData *data=[NSData dataWithContentsOfURL:url];
+        NSError *error =nil;
+        id response=[NSJSONSerialization JSONObjectWithData:data options:
+                     NSJSONReadingMutableContainers error:&error];
+        listOfActors = [response objectForKey:@"cast"]; //2
     });
     
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -240,13 +230,15 @@ NSMutableString *listOfLanguages;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(section == ([headers count]-1))
-       return [listOfActors count];
+    if(section == ([headers count]-1)){
+        NSLog(@"count %D: ", [listOfActors count]);
+        return [listOfActors count];
+    }
     else if(section == 0)
         return 2;
     // Return the number of rows in the section.
     else return 1;
-       
+    
 }
 
 
@@ -258,27 +250,29 @@ NSMutableString *listOfLanguages;
     cell.detailTextLabel.text = nil;
     
     switch (indexPath.section) {
-        
+            
         case 0: cell.textLabel.text = title;
             if(indexPath.row == 1){
                 cell.textLabel.text = self.release_segue;
-            cell.detailTextLabel.text = self.rating_segue;
-                NSLog(@"segue %@", self.rating_segue);
+                cell.detailTextLabel.text = self.rating_segue;
             }
-                [cell.textLabel sizeToFit];
-                break;
-        
+            [cell.textLabel sizeToFit];
+            break;
+            
         case 1:
             cell.textLabel.text = nil;
-                cell.imageView.image = posterView;
-                break;
-        
+            cell.imageView.image = posterView;
+            //    cell.imageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            cell.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            break;
+            
         case 2:
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             cell.textLabel.text = synopsisText;
             break;
-        
+            
         case 3:
             cell.textLabel.numberOfLines = 0;
             cell.textLabel.text = productionText;
@@ -297,6 +291,7 @@ NSMutableString *listOfLanguages;
         case 6:
             cell.textLabel.text = nil;
             cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
+            NSLog(@"row : %d %@ ", [indexPath row], cell.textLabel.text);
             cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
             
             NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];
@@ -335,9 +330,9 @@ NSMutableString *listOfLanguages;
                 [cell.imageView setImage:defaultImage];
             }
             
-        
             
- 
+            
+            
     }
     return cell;
 }
@@ -347,38 +342,38 @@ NSMutableString *listOfLanguages;
 {
     NSString *sectionHeader;
     if(section !=0)
-    sectionHeader = [headers objectAtIndex:section];
+        sectionHeader = [headers objectAtIndex:section];
     return sectionHeader;
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
+    
     switch(indexPath.section)
     {
             
         case 0:
             boundRect = [title boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                                 options:NSStringDrawingUsesLineFragmentOrigin
-                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                                 context:nil];
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                            context:nil];
             
-             sizeValue = boundRect.size.height;
- 
-     break;
+            sizeValue = boundRect.size.height;
+            
+            break;
             
         case 1:
             size =  [posterView size];
             sizeValue = size.height;
-   //        NSLog(@" image width, heght %f %f", size.width, size.height);
+            //        NSLog(@" image width, heght %f %f", size.width, size.height);
             break;
             
         case 2:
             boundRect = [synopsisText boundingRectWithSize:CGSizeMake(screenWidth, 999)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                            context:nil];
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                                   context:nil];
             
             
             sizeValue = boundRect.size.height;
@@ -386,85 +381,36 @@ NSMutableString *listOfLanguages;
             
         case 3:
             boundRect = [productionText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                            context:nil];
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                                     context:nil];
             
             sizeValue = boundRect.size.height;
             break;
             
         case 4:
             boundRect = [genreText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                            context:nil];
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                                context:nil];
             
             sizeValue = boundRect.size.height;
             break;
             
         case 5:
             boundRect = [languageText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                            context:nil];
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                                   context:nil];
             
             sizeValue = boundRect.size.height;
             break;
-        
-        
+            
+            
     }
-
+    
     return sizeValue;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 ___Pranav___. All rights reserved.
 //
 
+
+//not used anymore.
 #import "SectionDetailViewController.h"
 
 @interface SectionDetailViewController (){

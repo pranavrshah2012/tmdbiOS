@@ -396,7 +396,7 @@
         [[segue destinationViewController ] setRating_segue:
          //w ((Movie *)listOfMovies[indexPath]).rating;
      [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
-        NSLog(@"rating, %@", ((Movie *)listOfMovies[indexPath.row]).rating );
+    //    NSLog(@"rating, %@", ((Movie *)listOfMovies[indexPath.row]).rating );
       //,ratings[indexPath.row]]];
         
          
