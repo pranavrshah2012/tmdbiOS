@@ -1,13 +1,5 @@
-//
-//  customizeSectionTableViewController.m
-//  tmdbapp
-//
-//  Created by Pranav on 9/17/14.
-//  Copyright (c) 2014 ___Pranav___. All rights reserved.
-//
 
 #import "customizeSectionTableViewController.h"
-
 
 @interface customizeSectionTableViewController (){
     NSMutableString *baseUrl;
@@ -27,12 +19,8 @@
     NSMutableArray *languagesArray;
     NSMutableString *listOfLanguages;
     
-    
     CGSize size;
     CGFloat sizeValue;
-    CGRect boundRect;
-    CGRect screenRect;
-    CGFloat screenWidth;
     NSMutableArray *height;
     NSArray *headers;
     UIImage *posterView;
@@ -40,8 +28,6 @@
     NSMutableString *productionText;
     NSMutableString *genreText;
     NSMutableString *languageText;
-    
-    
 }
 - (void)configureView;
 
@@ -50,14 +36,10 @@
 
 @implementation customizeSectionTableViewController
 
-
-//left
 - (void)setDetailItem:(id)newDetailItem
 {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        
-        // Update the view.
         [self configureView];
     }
 }
@@ -68,12 +50,9 @@
     
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    screenRect = [[UIScreen mainScreen] bounds];
-    screenWidth = screenRect.size.width;
     height = [[NSMutableArray alloc]init];
     headers = @[[ NSNull null] ,@"Poster", @"Synopsis", @"Production", @"Genre", @"Language", @"Cast"];
     
@@ -101,7 +80,6 @@
     [jsonUrl appendString:idOfMovie.description ];
     [jsonUrl appendString:key];
     
-    
     //loading animation
     [self.scroller setHidden:NO];
     [self.downloadedView setHidden:YES];
@@ -128,7 +106,6 @@
                 [listOfLanguages appendString: @"," ];
         }
         
-        
         for(i =0 ; i < genresArray.count; i++){
             [listOfGenres appendString: [genresArray[i] objectForKey:@"name"] ];
             if(i!= ([genresArray count]-1) )
@@ -150,7 +127,6 @@
         if (downloadedData) {
             // caching
             [memoryCache setObject:downloadedData forKey:baseImgUrl];
-            
             baseUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
             [baseUrl appendString:idOfMovie.description ];
             [baseUrl appendString:credits];
@@ -158,12 +134,10 @@
             
             url=[NSURL URLWithString:baseUrl];
             data=[NSData dataWithContentsOfURL:url];
-            
             error=nil;
             id response=[NSJSONSerialization JSONObjectWithData:data options:
                          NSJSONReadingMutableContainers error:&error];
-            listOfActors = [response objectForKey:@"cast"]; //2
-            
+            listOfActors = [response objectForKey:@"cast"];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -184,13 +158,10 @@
             genreText = listOfGenres;
             languageText = listOfLanguages;
             [self.tableView reloadData];
-            
             [self.scroller setHidden:YES];
             [self.downloadedView setHidden:NO];
             [self.scroller stopAnimating];
-            
         });
-        
     });
     
     // credits table
@@ -210,21 +181,17 @@
     });
     
     [self configureView];
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    
     return 7;
 }
 
@@ -233,12 +200,9 @@
     if(section == ([headers count]-1)){
      //   NSLog(@"count %D: ", [listOfActors count]);
         return [listOfActors count];
-    }
-    else if(section == 0)
+    }else if(section == 0)
         return 2;
-    // Return the number of rows in the section.
     else return 1;
-    
 }
 
 
@@ -250,7 +214,7 @@
     cell.detailTextLabel.text = nil;
     
     switch (indexPath.section) {
-            
+        
         case 0: cell.textLabel.text = title;
             if(indexPath.row == 1){
                 cell.textLabel.text = self.release_segue;
@@ -262,6 +226,7 @@
         case 1:
             cell.textLabel.text = nil;
             cell.imageView.image = posterView;
+            cell.imageView.autoresizingMask = ( UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
             break;
             
         case 2:
@@ -316,23 +281,15 @@
                             }
                         });
                     });
-                    
                 }
-            }
-            
-            else{
+            }else{
                 UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
                 [castDictionary setObject:defaultImage forKey:indexPath];
                 [cell.imageView setImage:defaultImage];
             }
-            
-            
-            
-            
     }
     return cell;
 }
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -342,7 +299,6 @@
     return sectionHeader;
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -350,63 +306,78 @@
     {
             
         case 0:
-            boundRect = [title boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                            context:nil];
-            
-            sizeValue = boundRect.size.height;
+            sizeValue = [self calculateHeightForEachSection : title ] ;
+//            boundRect = [title boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+//                                            options:NSStringDrawingUsesLineFragmentOrigin
+//                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+//                                            context:nil];
+//            sizeValue = boundRect.size.height;
             
             break;
             
         case 1:
             size =  [posterView size];
             sizeValue = size.height;
-            //        NSLog(@" image width, heght %f %f", size.width, size.height);
             break;
             
         case 2:
-            boundRect = [synopsisText boundingRectWithSize:CGSizeMake(screenWidth, 999)
-                                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                                   context:nil];
-            
-            
-            sizeValue = boundRect.size.height;
+            sizeValue = [self calculateHeightForEachSection : synopsisText];
+//            boundRect = [synopsisText boundingRectWithSize:CGSizeMake(screenWidth, 999)
+//                                                   options:NSStringDrawingUsesLineFragmentOrigin
+//                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+//                                                   context:nil];
+//            sizeValue = boundRect.size.height;
             break;
             
         case 3:
-            boundRect = [productionText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                                     options:NSStringDrawingUsesLineFragmentOrigin
-                                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                                     context:nil];
-            
-            sizeValue = boundRect.size.height;
+            sizeValue = [self calculateHeightForEachSection : productionText];
+//            boundRect = [productionText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+//                                                     options:NSStringDrawingUsesLineFragmentOrigin
+//                                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+//                                                     context:nil];
+//            sizeValue = boundRect.size.height;
             break;
             
         case 4:
-            boundRect = [genreText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                                context:nil];
-            
-            sizeValue = boundRect.size.height;
+            sizeValue = [self calculateHeightForEachSection: genreText];
+//            boundRect = [genreText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+//                                                options:NSStringDrawingUsesLineFragmentOrigin
+//                                             attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+//                                                context:nil];
+//            sizeValue = boundRect.size.height;
             break;
             
-        case 5:
-            boundRect = [languageText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
-                                                   context:nil];
-            
-            sizeValue = boundRect.size.height;
+        case 5:;
+            sizeValue = [self calculateHeightForEachSection : languageText];
+//            boundRect = [languageText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+//                                                   options:NSStringDrawingUsesLineFragmentOrigin
+//                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+//                                                   context:nil];
+//            sizeValue = boundRect.size.height;
             break;
-            
-            
     }
-    
     return sizeValue;
 }
 
+- (CGFloat) calculateHeightForEachSection: (NSString*) component
+{
+    
+    CGFloat calculatedHeight;
+    CGRect boundRect;
+    CGRect screenRect;
+    screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+  
+
+    boundRect = [component boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}
+                                        context:nil];
+    calculatedHeight = boundRect.size.height;
+    return calculatedHeight;
+}
 
 @end
+
+
+

@@ -1,10 +1,4 @@
-//
-//  tmdbMasterViewController.m
-//  tmdbapp
-//
-//  Created by Pranav on 9/3/14.
-//  Copyright (c) 2014 ___Pranav___. All rights reserved.
-//
+
 
 #import "tmdbMasterViewController.h"
 #import "constants.h"
@@ -105,18 +99,11 @@
              movie = [[Movie alloc]init];
              [movie createMovieObjectFromJson: movieObject];
             [listOfMovies addObject: movie];
-           // NSLog(@"-> %@ %@ %@ %@ %@" , movie.id, movie.title, movie.releaseDate, movie.rating, movie.posterUrl);
          }
-       
-     
+    
      dispatch_async(dispatch_get_main_queue(), ^{
          for(movieObject in results){
-           //next 4 lines not required
              [_objects addObject: [movieObject objectForKey : @"original_title" ]];
-           //  [releases addObject: [movieObject objectForKey : @"release_date" ]];
-           //  [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
-           //  [urls addObject: [movieObject objectForKey : @"poster_path"]];
-           //  [ids addObject: [movieObject objectForKey:@"id"]];
              [self.masterView setHidden:NO];
              [self.scrollWheel setHidden:YES];
              [self.masterView reloadData];
@@ -130,7 +117,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)insertNewObject:(id)sender
@@ -159,7 +145,6 @@
     else
     {
         return [listOfMovies count];
-        //w return [_objects count];
     }
 }
 
@@ -168,7 +153,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  //  NSString *posterToSearch;
     CustomCellTableViewCell *cell = (CustomCellTableViewCell*)[self.masterView dequeueReusableCellWithIdentifier:@"Cell"] ;
     NSInteger indexToSearchForImage;
     if (tableView == self.searchDisplayController.searchResultsTableView)
@@ -177,13 +161,10 @@
         Movie *foundMovie = [self.searchResult objectAtIndex:indexPath.row];
        
         cell.textLabel.text =  foundMovie.title;
-  
-        //w cell.textLabel.text = [self.searchResult objectAtIndex:indexPath.row];
         cell.ratingLabel.text = @"";
         cell.TitleLabel.text = @"";
         cell.releaseLabel.text = @"";
         
-      //not req
         indexToSearchForImage = [_objects indexOfObject:cell.textLabel.text];
         
         cell.imageView.image = [memoryCache objectForKey: foundMovie.posterUrl];
@@ -191,18 +172,11 @@
     else {
         cell.imageView.image = nil ;
         
-        //NSObject *object = listOfMovies[indexPath.row];
-    NSObject *object = _objects[indexPath.row];
-        //experiemnt WORKED.
+        NSObject *object = _objects[indexPath.row];
         
     NSObject *movieRating = ((Movie *)listOfMovies[indexPath.row]).rating ;
     NSObject *movieRelease = ((Movie *)listOfMovies [indexPath.row]).releaseDate;
     NSString *poster_path = ((Movie *) listOfMovies[indexPath.row]).posterUrl;
-    
-    //NSObject *movieRating = ratings[indexPath.row];
-    //NSObject *movieRelease = releases [indexPath.row];
-    //NSString *poster_path = urls [indexPath.row];
- 
     baseImageUrl = [NSMutableString stringWithString:@""];
     baseImageUrl = [NSMutableString stringWithString:@"http://image.tmdb.org/t/p/w45"];
     __block  NSURL *localUrl ;
@@ -215,12 +189,10 @@
         UIImage *defaultImage = [UIImage imageNamed: @"images-3.jpeg"];
     
         [memoryCache setObject:defaultImage forKey:poster_path];
-       //w [memoryCache setObject:defaultImage forKey:indexPath];
         [cell.imageView setImage:defaultImage];
         }
    
       UIImage *image = [memoryCache objectForKey:poster_path];
-//w   UIImage *image = [memoryCache objectForKey:indexPath];
     if(image){
        cell.imageView.image = image;
 
@@ -243,8 +215,6 @@
 
     }
     
-    
-    // configure the cell
     cell.TitleLabel.text = [object description];
     cell.ratingLabel.text = [movieRating description];
     cell.releaseLabel.text = [movieRelease description];
@@ -260,12 +230,6 @@
      NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@", searchText];
      
      self.searchResult = [NSMutableArray arrayWithArray: [listOfMovies filteredArrayUsingPredicate:resultPredicate]];
-     
-     
- /*NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
- 
- self.searchResult = [NSMutableArray arrayWithArray: [_objects filteredArrayUsingPredicate:resultPredicate]];
-  */
  }
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
@@ -278,7 +242,6 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
 
@@ -288,7 +251,7 @@
         [_objects removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+
     }
 }
 
@@ -312,43 +275,21 @@
                 movie = [[Movie alloc]init];
                 [movie createMovieObjectFromJson: movieObject];
                 [listOfMovies addObject: movie];
-                //   NSLog(@"-> %@ %@ %@ %@" , movie.title, movie.releaseDate, movie.rating, movie.posterUrl);
             }
-            
-
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 for(movieObject in res){
                     [_objects addObject: [movieObject objectForKey : @"original_title" ]];
-                 //w   [releases addObject: [movieObject objectForKey : @"release_date" ]];
-                 //w   [ratings addObject: [movieObject objectForKey : @"vote_average" ]];
-                 //w   [urls addObject: [movieObject objectForKey : @"poster_path"]];
-                 //w   [ids addObject: [movieObject objectForKey:@"id"]];
                     [self.masterView reloadData];
-      
                 }
-                
             });
         });
-        
-        
     }
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    /*
-    switch (indexPath.row) {
-        case 0: [self performSegueWithIdentifier:@"Segue0" sender:self];
-            break;
-        case 1: [self performSegueWithIdentifier:@"Segue1" sender:self];
-            break;
-        default: break;
-    }*/
-    
     [tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] animated:YES];
-  //  NSLog(@"am i calleD?");
 }
 
 
@@ -359,45 +300,25 @@
     NSString *chosenId;
     int indexFound;
     
-  //if ([[segue identifier] isEqualToString:@"show"]) {
- //   if ([[segue identifier] isEqualToString:@"sectionDetail"]) {
     if ([[segue identifier] isEqualToString:@"customizedSection"]) {
    
     if (self.searchDisplayController.active) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
-            
-            //not req
             titleToSearch = _searchResult[indexPath.row];
-            
-            
-         //   [[segue destinationViewController] setDetailTitle:((Movie*)_searchResult[indexPath.row]).title];
-            
-           //w    [[segue destinationViewController] setDetailTitle:_searchResult[indexPath.row]];
-         
-            //not req
             indexFound = [_objects indexOfObject:titleToSearch];
-            
             chosenId = ((Movie*) _searchResult[indexPath.row]).id;
-            //chosenId = ids[indexFound];
         }
         
         else{
         indexPath = [self.masterView indexPathForSelectedRow];
             chosenId = ((Movie*)listOfMovies[indexPath.row]).id;
-            //w object = ids[indexPath.row];
-        
             [[segue destinationViewController] setDetailTitle: ((Movie*) listOfMovies[indexPath.row]).title];
-
-            //w [[segue destinationViewController] setDetailTitle: _objects[indexPath.row]];
-
         }
    [[segue destinationViewController] setDetailItem: chosenId ];
    [[segue destinationViewController] setRelease_segue: ((Movie*)listOfMovies[indexPath.row]).releaseDate];
         [[segue destinationViewController ] setRating_segue:
-         //w ((Movie *)listOfMovies[indexPath]).rating;
      [NSString stringWithFormat: @"%@", ((Movie *)listOfMovies[indexPath.row]).rating]];
-    //    NSLog(@"rating, %@", ((Movie *)listOfMovies[indexPath.row]).rating );
-      //,ratings[indexPath.row]]];
+ 
         
          
     }

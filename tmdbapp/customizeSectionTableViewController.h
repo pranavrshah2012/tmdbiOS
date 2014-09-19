@@ -1,12 +1,3 @@
-//
-//  customizeSectionTableViewController.h
-//  tmdbapp
-//
-//  Created by Pranav on 9/17/14.
-//  Copyright (c) 2014 ___Pranav___. All rights reserved.
-//
-
-#import <UIKit/UIKit.h>
 
 @interface customizeSectionTableViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;

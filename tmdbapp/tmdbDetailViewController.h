@@ -1,12 +1,4 @@
-//
-//  tmdbDetailViewController.h
-//  tmdbapp
-//
-//  Created by Pranav on 9/3/14.
-//  Copyright (c) 2014 ___Pranav___. All rights reserved.
-//
 
-#import <UIKit/UIKit.h>
 
 @interface tmdbDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;

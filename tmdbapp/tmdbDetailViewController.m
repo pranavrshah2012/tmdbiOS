@@ -1,10 +1,3 @@
-//
-//  tmdbDetailViewController.m
-//  tmdbapp
-//
-//  Created by Pranav on 9/3/14.
-//  Copyright (c) 2014 ___Pranav___. All rights reserved.
-//
 
 //not used anymore.
 #import "tmdbDetailViewController.h"
@@ -71,7 +64,6 @@
     
     NSMutableString *jsonUrl = [NSMutableString stringWithString:@"https://api.themoviedb.org/3/movie/"];
     key = [NSMutableString stringWithString:@"?api_key=c47afb8e8b27906bca710175d6e8ba68"];
-  //  NSLog(@"lol");
     [jsonUrl appendString:idOfMovie.description ];
     [jsonUrl appendString:key];
 
@@ -178,7 +170,6 @@
      id response=[NSJSONSerialization JSONObjectWithData:data options:
      NSJSONReadingMutableContainers error:&error];
      listOfActors = [response objectForKey:@"cast"]; //2
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 
 }
@@ -211,7 +202,6 @@ int count =1;
         NSLog(@"Cell is nil");
     }
 
-    // Configure the cell.
     cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
     cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
     
@@ -256,7 +246,6 @@ int count =1;
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
 
@@ -266,7 +255,6 @@ int count =1;
         [listOfActors removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
 @end
