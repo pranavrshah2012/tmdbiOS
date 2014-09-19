@@ -231,7 +231,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(section == ([headers count]-1)){
-        NSLog(@"count %D: ", [listOfActors count]);
+     //   NSLog(@"count %D: ", [listOfActors count]);
         return [listOfActors count];
     }
     else if(section == 0)
@@ -262,9 +262,6 @@
         case 1:
             cell.textLabel.text = nil;
             cell.imageView.image = posterView;
-            //    cell.imageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-            cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-            cell.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             break;
             
         case 2:
@@ -291,7 +288,6 @@
         case 6:
             cell.textLabel.text = nil;
             cell.textLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"name"];
-            NSLog(@"row : %d %@ ", [indexPath row], cell.textLabel.text);
             cell.detailTextLabel.text = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"character"];
             
             NSString *cast_image_path = [[listOfActors objectAtIndex: [indexPath row]] objectForKey:@"profile_path"];

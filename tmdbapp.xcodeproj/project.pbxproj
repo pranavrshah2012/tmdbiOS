@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8110249419B9DDA4007CF550 /* tmdbIndexPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */; };
+		811A227A19CC8CC000C7AD46 /* L1.png in Resources */ = {isa = PBXBuildFile; fileRef = 811A227519CC8CC000C7AD46 /* L1.png */; };
+		811A227B19CC8CC000C7AD46 /* L2.png in Resources */ = {isa = PBXBuildFile; fileRef = 811A227619CC8CC000C7AD46 /* L2.png */; };
+		811A227C19CC8CC000C7AD46 /* m2.png in Resources */ = {isa = PBXBuildFile; fileRef = 811A227719CC8CC000C7AD46 /* m2.png */; };
+		811A227D19CC8CC000C7AD46 /* m3.png in Resources */ = {isa = PBXBuildFile; fileRef = 811A227819CC8CC000C7AD46 /* m3.png */; };
+		811A227E19CC8CC000C7AD46 /* m4.png in Resources */ = {isa = PBXBuildFile; fileRef = 811A227919CC8CC000C7AD46 /* m4.png */; };
 		814B4B0619B92E3700D5FDBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814B4B0419B92E3700D5FDBA /* Main.storyboard */; };
 		815A207419C8F0400041C2F9 /* SectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815A207319C8F0400041C2F9 /* SectionDetailViewController.m */; };
 		817376F719B8018900733619 /* images.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 817376F619B8018900733619 /* images.jpeg */; };
@@ -45,6 +50,11 @@
 /* Begin PBXFileReference section */
 		8110249219B9DDA4007CF550 /* tmdbIndexPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tmdbIndexPageController.h; sourceTree = "<group>"; };
 		8110249319B9DDA4007CF550 /* tmdbIndexPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tmdbIndexPageController.m; sourceTree = "<group>"; };
+		811A227519CC8CC000C7AD46 /* L1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = L1.png; sourceTree = "<group>"; };
+		811A227619CC8CC000C7AD46 /* L2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = L2.png; sourceTree = "<group>"; };
+		811A227719CC8CC000C7AD46 /* m2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m2.png; sourceTree = "<group>"; };
+		811A227819CC8CC000C7AD46 /* m3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m3.png; sourceTree = "<group>"; };
+		811A227919CC8CC000C7AD46 /* m4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m4.png; sourceTree = "<group>"; };
 		814B4B0519B92E3700D5FDBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		815A207219C8F0400041C2F9 /* SectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SectionDetailViewController.h; path = ../SectionDetailViewController.h; sourceTree = "<group>"; };
 		815A207319C8F0400041C2F9 /* SectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SectionDetailViewController.m; path = ../SectionDetailViewController.m; sourceTree = "<group>"; };
@@ -165,6 +175,11 @@
 		8194F95319B7F45F00078E80 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				811A227519CC8CC000C7AD46 /* L1.png */,
+				811A227619CC8CC000C7AD46 /* L2.png */,
+				811A227719CC8CC000C7AD46 /* m2.png */,
+				811A227819CC8CC000C7AD46 /* m3.png */,
+				811A227919CC8CC000C7AD46 /* m4.png */,
 				81A2F84119C39A7100E6B991 /* images-3.jpeg */,
 				817376F619B8018900733619 /* images.jpeg */,
 				8194F95419B7F45F00078E80 /* tmdbapp-Info.plist */,
@@ -270,9 +285,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				811A227E19CC8CC000C7AD46 /* m4.png in Resources */,
 				8194F96819B7F45F00078E80 /* Images.xcassets in Resources */,
 				817376F719B8018900733619 /* images.jpeg in Resources */,
+				811A227C19CC8CC000C7AD46 /* m2.png in Resources */,
 				8194F95719B7F45F00078E80 /* InfoPlist.strings in Resources */,
+				811A227D19CC8CC000C7AD46 /* m3.png in Resources */,
+				811A227A19CC8CC000C7AD46 /* L1.png in Resources */,
+				811A227B19CC8CC000C7AD46 /* L2.png in Resources */,
 				814B4B0619B92E3700D5FDBA /* Main.storyboard in Resources */,
 				81A2F84219C39A7100E6B991 /* images-3.jpeg in Resources */,
 			);
