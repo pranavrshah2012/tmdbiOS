@@ -198,7 +198,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(section == ([headers count]-1)){
-     //   NSLog(@"count %D: ", [listOfActors count]);
         return [listOfActors count];
     }else if(section == 0)
         return 2;
